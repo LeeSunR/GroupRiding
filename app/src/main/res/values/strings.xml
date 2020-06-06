@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GroupRiding</string>
+    <string name="stringStartGroupRiding">Start Group Riding</string>
+    <string name="string">Start Group Riding</string>
+    <string name="stringInfoSpeed">Speed</string>
+    <string name="stringInfoAvgSpeed">Avg Speed</string>
+    <string name="stringInfoDistance">Distance</string>
+    <string name="stringInfoRidingTime">Riding Time</string>
+    <string name="stringInfoRestTime">Rest Time</string>
+</resources>
