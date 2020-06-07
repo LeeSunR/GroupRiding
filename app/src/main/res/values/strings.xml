@@ -7,4 +7,6 @@
     <string name="stringInfoDistance">Distance</string>
     <string name="stringInfoRidingTime">Riding Time</string>
     <string name="stringInfoRestTime">Rest Time</string>
+    <string name="stringToggleRun">시작하기</string>
+    <string name="stringToggleStop">정지하기</string>
 </resources>

@@ -1,11 +1,19 @@
 package kr.baka.groupriding.viewmodel
 
+import android.content.Intent
+import android.database.Observable
+import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kr.baka.groupriding.model.Information
+import kr.baka.groupriding.service.RidingService
 import java.util.*
+import kotlin.coroutines.coroutineContext
+import kotlin.reflect.KClass
 
 class MainViewModel: ViewModel(){
     val layoutTopLeft = MutableLiveData<Information>()
@@ -13,7 +21,7 @@ class MainViewModel: ViewModel(){
     val layoutMiddle = MutableLiveData<Information>()
     val layoutBottomLeft = MutableLiveData<Information>()
     val layoutBottomRight = MutableLiveData<Information>()
-
+    var tgRidingStatus = MutableLiveData<Boolean>()
 
 
     init {
@@ -26,10 +34,13 @@ class MainViewModel: ViewModel(){
 
     override fun onCleared() {
         super.onCleared()
-
     }
+
     fun click(){
     }
 
+    fun startRuning(boolean: Boolean){
+        tgRidingStatus.value = boolean
+    }
 
 }
