@@ -71,9 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                app:variableTextSize="@{viewModel.layoutTopLeft.type}"
+                app:variableTextSize="@{viewModel.layoutTopLeft.size}"
                 android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutTopLeft.value}"
+                android:text="@{viewModel.layoutTopLeft.data}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -94,9 +94,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                app:variableTextSize="@{viewModel.layoutTopRight.type}"
+                app:variableTextSize="@{viewModel.layoutTopRight.size}"
                 android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutTopRight.value}"
+                android:text="@{viewModel.layoutTopRight.data}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -117,10 +117,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                app:variableTextSize="@{viewModel.layoutMiddle.type}"
+                app:variableTextSize="@{viewModel.layoutMiddle.size}"
                 android:textAlignment="center"
                 android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutMiddle.value}"
+                android:text="@{viewModel.layoutMiddle.data}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -141,9 +141,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                app:variableTextSize="@{viewModel.layoutBottomLeft.type}"
+                app:variableTextSize="@{viewModel.layoutBottomLeft.size}"
                 android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutBottomLeft.value}"
+                android:text="@{viewModel.layoutBottomLeft.data}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -164,9 +164,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                app:variableTextSize="@{viewModel.layoutBottomRight.type}"
+                app:variableTextSize="@{viewModel.layoutBottomRight.size}"
                 android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutBottomRight.value}"
+                android:text="@{viewModel.layoutBottomRight.data}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

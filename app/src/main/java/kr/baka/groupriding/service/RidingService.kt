@@ -18,35 +18,39 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.model.Information
 import kr.baka.groupriding.viewmodel.MainViewModel
 import kotlin.concurrent.thread
 
 class RidingService: Service() {
+
+    private val tag = this::class.simpleName
 
     private val timeInterval:Long = 100
     private var threadStopFlag:Boolean = false
     private var tick = 0
     private var previousLocation:Location? = null
     private var viewModel:MainViewModel? = null
+
     override fun onBind(intent: Intent?): IBinder? {
-        Log.e("hey","onBind")
+        Log.v(tag,"onBind")
         return null
     }
 
     override fun onCreate() {
-        Log.e("hey","onCreate")
+        Log.v(tag,"onCreate")
         super.onCreate()
 
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.e("hey","onStartCommand")
+        Log.v(tag,"onStartCommand")
         startThread()
         return START_STICKY
     }
 
     override fun onDestroy() {
-        Log.e("hey","onDestroy")
+        Log.v(tag,"onDestroy")
         super.onDestroy()
     }
 
@@ -75,9 +79,6 @@ class RidingService: Service() {
 
                 var mfors = floatArray[0] * 3600/1000
                 App.speedLiveData.value = mfors.toInt().toString()
-                //viewModel!!.layoutMiddle.value!!.value = mfors.toString()
-                //App.speedLiveData.value = mfors.toString()
-                //Log.e("LOCATION_CALLBACK 0",(mfors*1000).toString())
             }
             //Log.e("LOCATION_CALLBACK",previousLocation?.speed.toString())
 

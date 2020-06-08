@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.android.parcel.Parcelize
 import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.etc.App.speedLiveData
 import kr.baka.groupriding.model.Information
 import kr.baka.groupriding.service.RidingService
 import java.util.*
@@ -28,13 +27,12 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomRight = MutableLiveData<Information>()
     var tgRidingStatus = MutableLiveData<Boolean>()
 
-
     init {
-        layoutTopLeft.value = Information(Information.INFO_TYPE_SUB_FLOAT,"타이틀",ObservableField<String>())
-        layoutTopRight.value = Information(Information.INFO_TYPE_SUB_FLOAT,"타이틀",ObservableField<String>())
-        layoutMiddle.value = Information(Information.INFO_TYPE_MAIN_FLOAT,"타이틀",ObservableField<String>())
-        layoutBottomLeft.value = Information(Information.INFO_TYPE_SUB_TIME,"타이틀",ObservableField<String>())
-        layoutBottomRight.value = Information(Information.INFO_TYPE_SUB_TIME,"타이틀",ObservableField<String>())
+        layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
+        layoutTopRight.value = Information(Information.TYPE_ACG_SPEED,Information.SIZE_SUB_FLOAT)
+        layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
+        layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
+        layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
     }
 
     override fun onCleared() {
@@ -46,10 +44,10 @@ class MainViewModel: ViewModel(), Parcelable {
     }
 
     fun startRuning(boolean: Boolean){
-        layoutMiddle.value!!.value.set("-1")
+        layoutMiddle.value!!.setData("0")
 
-        speedLiveData.observeForever {
-            layoutMiddle.value!!.value.set(it)
+        App.speedLiveData.observeForever {
+            layoutMiddle.value!!.setData(it)
         }
         tgRidingStatus.value = boolean
     }
