@@ -19,14 +19,15 @@ class MainActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val viewModel = MainViewModel()
         binding.viewModel = viewModel
-
         viewModel.tgRidingStatus.observe(this, Observer {
             if(it){
                 val intent = Intent(this, RidingService::class.java)
+                //intent.putExtra("viewModel",viewModel.layoutMiddle)
                 startService(intent)
             }
             else{
                 val intent = Intent(this, RidingService::class.java)
+                //intent.putExtra("viewModel",viewModel)
                 stopService(intent)
             }
         })

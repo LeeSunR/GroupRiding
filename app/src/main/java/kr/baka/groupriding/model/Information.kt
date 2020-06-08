@@ -3,12 +3,14 @@ package kr.baka.groupriding.model
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import java.util.*
 
 data class Information(
     var type:Int,
     var title:String,
-    var value:String
+    var value:ObservableField<String>
 ) {
     companion object {
         val INFO_TYPE_SUB_TIME:Int = 0x0ee2

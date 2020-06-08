@@ -1,8 +1,12 @@
 package kr.baka.groupriding.etc
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 
-class App:Application(){
+object App:Application(){
+
+
+    var speedLiveData = MutableLiveData<String>()
 
     override fun onCreate() {
         super.onCreate()
