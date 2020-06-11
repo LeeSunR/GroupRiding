@@ -26,6 +26,7 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomLeft = MutableLiveData<Information>()
     val layoutBottomRight = MutableLiveData<Information>()
     var tgRidingStatus = MutableLiveData<Boolean>()
+    val uiEventLiveData = MutableLiveData<Pair<MainViewModel, Int>>()
 
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
@@ -45,9 +46,17 @@ class MainViewModel: ViewModel(), Parcelable {
 
     fun startRuning(boolean: Boolean){
         layoutMiddle.value!!.setData("0")
-
+        App.distanceLiveData.observeForever {
+            layoutTopLeft.value!!.setData(it)
+        }
         App.speedLiveData.observeForever {
             layoutMiddle.value!!.setData(it)
+        }
+        App.ridingTimeLiveData.observeForever {
+            layoutBottomLeft.value!!.setData(it)
+        }
+        App.restTimeLiveData.observeForever {
+            layoutBottomRight.value!!.setData(it)
         }
         tgRidingStatus.value = boolean
     }

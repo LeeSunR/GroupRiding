@@ -14,8 +14,8 @@ class App:Application(){
         var maxSpeedLiveData = MutableLiveData<String>()
         var ridingTimeLiveData = MutableLiveData<String>()
         var restTimeLiveData = MutableLiveData<String>()
-        var sumOfSpeed = Int
-        var countOfSampling = Int
+        var sumOfSpeed = 0
+        var countOfSampling = 0
     }
 
 
