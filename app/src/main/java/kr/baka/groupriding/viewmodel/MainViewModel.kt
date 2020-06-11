@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.android.parcel.Parcelize
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.etc.SingleLiveData
 import kr.baka.groupriding.model.Information
 import kr.baka.groupriding.service.RidingService
 import java.util.*
@@ -26,7 +27,8 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomLeft = MutableLiveData<Information>()
     val layoutBottomRight = MutableLiveData<Information>()
     var tgRidingStatus = MutableLiveData<Boolean>()
-    val uiEventLiveData = MutableLiveData<Pair<MainViewModel, Int>>()
+
+    val startSettingActivityEvent = SingleLiveData<Any>()
 
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
@@ -61,4 +63,7 @@ class MainViewModel: ViewModel(), Parcelable {
         tgRidingStatus.value = boolean
     }
 
+    fun startSettingActivity(){
+        startSettingActivityEvent.call()
+    }
 }

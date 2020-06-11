@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val viewModel = MainViewModel()
         binding.viewModel = viewModel
+
         viewModel.tgRidingStatus.observe(this, Observer {
             if(it){
                 val intent = Intent(this, RidingService::class.java)
@@ -32,5 +33,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.startSettingActivityEvent.observe(this, Observer {
+            val intent = Intent(this,SettingActivity::class.java)
+            startActivity(intent)
+            //TODO call activity
+        })
     }
 }

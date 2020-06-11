@@ -45,6 +45,7 @@
             android:layout_height="36dp"/>
 
         <Button
+            android:onClick="@{()->viewModel.startSettingActivity()}"
             android:id="@+id/btnMenu"
             android:backgroundTint="@color/colorDefaultForeground"
             android:layout_margin="16dp"
