@@ -41,11 +41,14 @@ class RidingService: Service() {
     private var viewModel:MainViewModel? = null
     private var distance = 0
     private var speed = 0
+    private var sumOfSpeed:Long = 0
+    private var speedSamplingCount:Long = 0
+    private val myLocationListener = MyLocationListener()
+    private lateinit var locationManager:LocationManager
 
     private var timerInterval:Long=1000
     private var timer:Timer = Timer()
     private var myTimerTask:MyTimerTask = MyTimerTask()
-    private var startDate:Date = Date()
     private var ridingTime:Time = Time(0)
     private var restTime:Time = Time(0)
 
@@ -57,7 +60,6 @@ class RidingService: Service() {
     override fun onCreate() {
         super.onCreate()
         Log.v(tag,"onCreate")
-
 
         timer.schedule(myTimerTask,0,timerInterval)
 
@@ -82,11 +84,10 @@ class RidingService: Service() {
         super.onStartCommand(intent, flags, startId)
         Log.v(tag,"onStartCommand")
 
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {}
         else{
-            val myLocationCallback = MyLocationListener()
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeInterval, 0f,myLocationCallback)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeInterval, 0f,myLocationListener)
         }
         return START_STICKY
     }
@@ -94,6 +95,7 @@ class RidingService: Service() {
     override fun onDestroy() {
         Log.v(tag,"onDestroy")
         timer.cancel()
+        locationManager.removeUpdates(myLocationListener)
         super.onDestroy()
     }
 
@@ -152,6 +154,12 @@ class RidingService: Service() {
                     distance += (newDistance*100).toInt() //cm
                 }
 
+                if (speed>0) {
+                    sumOfSpeed += speed
+                    speedSamplingCount++
+                }
+
+                if (speedSamplingCount>0) App.avgSpeedLiveData.value = (sumOfSpeed/speedSamplingCount).toString()
                 App.distanceLiveData.value = (distance/100).toString()
                 App.speedLiveData.value = speed.toString()
                 previousLocation = location

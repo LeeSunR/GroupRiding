@@ -36,6 +36,7 @@ class MainViewModel: ViewModel(), Parcelable {
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
+        observeForever()
     }
 
     override fun onCleared() {
@@ -47,23 +48,43 @@ class MainViewModel: ViewModel(), Parcelable {
     }
 
     fun startRuning(boolean: Boolean){
-        layoutMiddle.value!!.setData("0")
-        App.distanceLiveData.observeForever {
-            layoutTopLeft.value!!.setData(it)
-        }
-        App.speedLiveData.observeForever {
-            layoutMiddle.value!!.setData(it)
-        }
-        App.ridingTimeLiveData.observeForever {
-            layoutBottomLeft.value!!.setData(it)
-        }
-        App.restTimeLiveData.observeForever {
-            layoutBottomRight.value!!.setData(it)
-        }
         tgRidingStatus.value = boolean
     }
 
     fun startSettingActivity(){
         startSettingActivityEvent.call()
+    }
+
+    private fun observeForever(){
+        observeLayout(layoutTopLeft)
+        observeLayout(layoutTopRight)
+        observeLayout(layoutMiddle)
+        observeLayout(layoutBottomLeft)
+        observeLayout(layoutBottomRight)
+    }
+
+    private fun observeLayout(layout:MutableLiveData<Information>){
+        when(layout.value!!.getType()){
+            Information.TYPE_DISTANCE->
+                App.distanceLiveData.observeForever{
+                    layout.value!!.setData(it)
+                }
+            Information.TYPE_ACG_SPEED->
+                App.avgSpeedLiveData.observeForever{
+                    layout.value!!.setData(it)
+                }
+            Information.TYPE_SPEED->
+                App.speedLiveData.observeForever{
+                    layout.value!!.setData(it)
+                }
+            Information.TYPE_RIDING_TIME->
+                App.ridingTimeLiveData.observeForever{
+                    layout.value!!.setData(it)
+                }
+            Information.TYPE_REST_TIME->
+                App.restTimeLiveData.observeForever{
+                    layout.value!!.setData(it)
+                }
+        }
     }
 }
