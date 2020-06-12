@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/colorDefaultBackGround"
+        app:variableBackgroundColor="@{viewModel.backgroundColor}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.MainActivity">
@@ -66,17 +66,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/colorDefaultForeground"
                 android:text="@{viewModel.layoutTopLeft.title}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <TextView
-                app:variableTextSize="@{viewModel.layoutTopLeft.size}"
-                android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutTopLeft.data}"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    app:variableTextSize="@{viewModel.layoutTopLeft.size}"
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="@{viewModel.layoutTopLeft.data}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -89,17 +99,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/colorDefaultForeground"
                 android:text="@{viewModel.layoutTopRight.title}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <TextView
-                app:variableTextSize="@{viewModel.layoutTopRight.size}"
-                android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutTopRight.data}"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    app:variableTextSize="@{viewModel.layoutTopRight.size}"
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="@{viewModel.layoutTopRight.data}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="km/h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -112,18 +132,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/colorDefaultForeground"
                 android:text="@{viewModel.layoutMiddle.title}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <TextView
-                app:variableTextSize="@{viewModel.layoutMiddle.size}"
-                android:textAlignment="center"
-                android:textColor="@color/colorDefaultForeground"
-                android:text="@{viewModel.layoutMiddle.data}"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    app:variableTextSize="@{viewModel.layoutMiddle.size}"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="@{viewModel.layoutMiddle.data}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/colorDefaultForeground"
+                    android:text="km/h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/colorDefaultForeground"
                 android:text="@{viewModel.layoutBottomLeft.title}"
                 android:layout_width="wrap_content"
@@ -159,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/colorDefaultForeground"
                 android:text="@{viewModel.layoutBottomRight.title}"
                 android:layout_width="wrap_content"
@@ -174,7 +204,7 @@
 
         <Button
             android:id="@+id/btnStartGroupRiding"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:background="@drawable/style_btn_group_riding_start"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

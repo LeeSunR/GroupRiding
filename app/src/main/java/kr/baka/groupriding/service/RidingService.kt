@@ -60,35 +60,24 @@ class RidingService: Service() {
     override fun onCreate() {
         super.onCreate()
         Log.v(tag,"onCreate")
-
-        timer.schedule(myTimerTask,0,timerInterval)
-
-        //startGPS()
-
-        var builder:NotificationCompat.Builder =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val mChannel = NotificationChannel("lockChannel", "잠금화면 사용중 알림", NotificationManager.IMPORTANCE_HIGH)
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(mChannel)
-            NotificationCompat.Builder(this,"lockChannel")
-        } else {
-            NotificationCompat.Builder(this)
-        }
-
-        builder.setSmallIcon(android.R.drawable.stat_notify_sync_noanim)
-        builder.setContentText("서비스가 실행중입니다")
-
-        startForeground(1, builder.build())
+        initData()
+        startForegroundNotification()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.v(tag,"onStartCommand")
 
+        timer.schedule(myTimerTask,0,timerInterval)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {}
-        else{
+        if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            onDestroy()
+            return START_NOT_STICKY
+        }
+        else {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeInterval, 0f,myLocationListener)
         }
+
         return START_STICKY
     }
 
@@ -98,44 +87,28 @@ class RidingService: Service() {
         locationManager.removeUpdates(myLocationListener)
         super.onDestroy()
     }
+    
+    private fun startForegroundNotification(){
+        var builder:NotificationCompat.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val mChannel = NotificationChannel("lockChannel", "잠금화면 사용중 알림", NotificationManager.IMPORTANCE_HIGH)
+                (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(mChannel)
+                NotificationCompat.Builder(this,"lockChannel")
+            } else {
+                NotificationCompat.Builder(this)
+            }
 
-    private fun startGPS(){
-        val locationRequest = LocationRequest.create()
-
-        //google play service
-//        val fusedLocationProviderClient = FusedLocationProviderClient(applicationContext)
-//        locationRequest.interval = 1000
-//        locationRequest.fastestInterval = 1000
-//        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-//
-//        fusedLocationProviderClient.requestLocationUpdates(
-//            locationRequest,
-//            MyLocationCallback(),
-//            Looper.myLooper()
-//        )
-
-
-        //android apk
+        builder.setSmallIcon(android.R.drawable.stat_notify_sync_noanim)
+        builder.setContentText("서비스가 실행중입니다")
+        startForeground(1, builder.build())
     }
 
-
-    inner class MyLocationCallback: LocationCallback(){
-        override fun onLocationResult(locationResult: LocationResult?) {
-            val location = locationResult?.lastLocation
-
-//            if(previousLocation!=null){
-//                var floatArray:FloatArray = FloatArray(2)
-//                Location.distanceBetween(previousLocation!!.latitude,previousLocation!!.longitude,location!!.latitude,location!!.longitude,floatArray)
-//
-//                var mfors = floatArray[0] * 3600/1000
-//                App.speedLiveData.value = mfors.toInt().toString()
-//            }
-
-//            App.speedLiveData.value = ((location!!.speed* 3600 / 1000).toInt()).toString()
-//            App.restTimeLiveData.value = location!!.speed.toString()
-//            previousLocation = location
-            super.onLocationResult(locationResult)
-        }
+    private fun initData(){
+        App.avgSpeedLiveData.value = "0"
+        App.distanceLiveData.value = "0"
+        App.speedLiveData.value = "0"
+        App.ridingTimeLiveData.value = "0:00:00"
+        App.restTimeLiveData.value = "0:00:00"
     }
 
     inner class MyLocationListener:LocationListener{

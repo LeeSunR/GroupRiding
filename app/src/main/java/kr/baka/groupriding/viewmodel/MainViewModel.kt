@@ -27,7 +27,7 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomLeft = MutableLiveData<Information>()
     val layoutBottomRight = MutableLiveData<Information>()
     var tgRidingStatus = MutableLiveData<Boolean>()
-
+    var backgroundColor = MutableLiveData<Int>()
     val startSettingActivityEvent = SingleLiveData<Any>()
 
     init {
@@ -36,6 +36,7 @@ class MainViewModel: ViewModel(), Parcelable {
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
+        bindingSetting()
         observeForever()
     }
 
@@ -45,6 +46,13 @@ class MainViewModel: ViewModel(), Parcelable {
 
     fun click(){
 
+    }
+
+    fun bindingSetting(){
+        backgroundColor.value = App.themeColor.value
+        App.themeColor.observeForever {
+            backgroundColor.value = it
+        }
     }
 
     fun startRuning(boolean: Boolean){

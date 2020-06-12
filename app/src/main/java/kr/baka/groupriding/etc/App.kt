@@ -8,12 +8,15 @@ class App:Application(){
 
     companion object{
         lateinit var context: Context
+        lateinit var sharedPreferences : MySharedPreferences
+
         var speedLiveData = MutableLiveData<String>()
         var distanceLiveData = MutableLiveData<String>()
         var avgSpeedLiveData = MutableLiveData<String>()
         var maxSpeedLiveData = MutableLiveData<String>()
         var ridingTimeLiveData = MutableLiveData<String>()
         var restTimeLiveData = MutableLiveData<String>()
+        var themeColor = MutableLiveData<Int>()
         var sumOfSpeed = 0
         var countOfSampling = 0
     }
@@ -21,6 +24,8 @@ class App:Application(){
 
     override fun onCreate() {
         context = applicationContext
+        sharedPreferences = MySharedPreferences(context)
+        themeColor.value = sharedPreferences.getThemeColor
         super.onCreate()
     }
 
