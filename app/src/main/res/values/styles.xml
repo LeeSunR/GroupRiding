@@ -11,4 +11,9 @@
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/style_popupmenu_background</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
 </resources>

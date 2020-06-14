@@ -1,23 +1,14 @@
 package kr.baka.groupriding.viewmodel
 
-import android.content.Intent
-import android.database.Observable
-import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.TextView
-import android.widget.ToggleButton
-import androidx.databinding.ObservableField
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.android.parcel.Parcelize
 import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.etc.SingleLiveData
 import kr.baka.groupriding.model.Information
-import kr.baka.groupriding.service.RidingService
-import java.util.*
-import kotlin.coroutines.coroutineContext
-import kotlin.reflect.KClass
 
 @Parcelize
 class MainViewModel: ViewModel(), Parcelable {
@@ -31,7 +22,9 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomRight = MutableLiveData<Information>()
     var tgRidingStatus = MutableLiveData<Boolean>()
     var backgroundColor = MutableLiveData<Int>()
-    val startSettingActivityEvent = SingleLiveData<Any>()
+
+
+    val startPopupMenuEvent = SingleLiveData<View>()
 
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
@@ -50,8 +43,8 @@ class MainViewModel: ViewModel(), Parcelable {
         tgRidingStatus.value = boolean
     }
 
-    fun startSettingActivity(){
-        startSettingActivityEvent.call()
+    fun startSettingActivity(view: View){
+        startPopupMenuEvent.value = view
     }
 
     private fun observeForever(){

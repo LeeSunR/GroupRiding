@@ -24,7 +24,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:padding="12dp"
-                android:background="@color/colorDefaultBackGround"
+                app:variableBackgroundColor="@{settingVM.themeColor}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button

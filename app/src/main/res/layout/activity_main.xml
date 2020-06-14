@@ -19,9 +19,8 @@
         tools:context=".view.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_weight="5"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
             <Button
                 android:id="@+id/btnSound"
                 android:backgroundTint="@color/colorDefaultForeground"
@@ -51,7 +50,7 @@
                 android:layout_height="36dp"/>
 
             <Button
-                android:onClick="@{()->viewModel.startSettingActivity()}"
+                android:onClick="@{(view)->viewModel.startSettingActivity(view)}"
                 android:id="@+id/btnMenu"
                 android:backgroundTint="@color/colorDefaultForeground"
                 android:layout_margin="16dp"
@@ -61,12 +60,15 @@
                 android:background="@drawable/ic_more_vert_black_24dp"
                 android:layout_width="36dp"
                 android:layout_height="36dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
+                android:layout_weight="1"
                 android:id="@+id/layoutLeftTop"
-                app:layout_constraintTop_toBottomOf="@id/btnSound"
-                app:layout_constraintLeft_toLeftOf="@id/layoutLeftBottom"
-                app:layout_constraintRight_toRightOf="@id/layoutLeftBottom"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -96,10 +98,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_weight="1"
                 android:id="@+id/layoutRightTop"
-                app:layout_constraintTop_toBottomOf="@id/btnSound"
-                app:layout_constraintLeft_toLeftOf="@id/layoutRightBottom"
-                app:layout_constraintRight_toRightOf="@id/layoutRightBottom"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -127,14 +127,17 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/layoutMiddle"
-                app:layout_constraintTop_toBottomOf="@+id/layoutLeftTop"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:orientation="vertical"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
@@ -161,13 +164,14 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
-
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:clipChildren="true"
+                android:layout_weight="1"
                 android:id="@+id/layoutLeftBottom"
-                app:layout_constraintTop_toBottomOf="@id/layoutMiddle"
-                app:layout_constraintRight_toLeftOf="@+id/layoutRightBottom"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -187,10 +191,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_weight="1"
                 android:id="@+id/layoutRightBottom"
-                app:layout_constraintTop_toBottomOf="@id/layoutMiddle"
-                app:layout_constraintLeft_toRightOf="@+id/layoutLeftBottom"
-                app:layout_constraintRight_toRightOf="parent"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -208,13 +210,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:background="#000"
             android:layout_weight="5"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.naver.maps.map.MapView
+            app:initMap="@{viewModel.backgroundColor}"
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

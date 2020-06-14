@@ -12,11 +12,12 @@ class SettingViewModel :ViewModel(){
 
     val tag = SettingViewModel::class.java.simpleName
     val themeName = MutableLiveData<String>()
+    val themeColor = MutableLiveData<Int>()
+
     val startSettingActivityEvent = SingleLiveData<Any>()
 
     init {
         themeName.value = "오류"
-
         App.themeColor.observeForever { getThemeName() }
     }
 

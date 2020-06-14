@@ -21,22 +21,19 @@ class SettingActivity : AppCompatActivity() {
 
         val binding = DataBindingUtil.setContentView<ActivitySettingBinding>(this, R.layout.activity_setting)
         val settingVM = SettingViewModel()
-        val mainVM = MainViewModel()
 
         binding.settingVM = settingVM
-        binding.mainVM = mainVM
+        binding.lifecycleOwner = this
 
-        settingVM.startSettingActivityEvent.observeForever(Observer {
-            //createThemeSelectDialog(this)
-            val dialog = AlertDialog.Builder(this)
-            dialog.setTitle("태마를 선택하세요")
-            dialog.setItems(this.resources.getStringArray(R.array.arrayThemeName)) { dialog, which ->
-                val arrayThemeColor = this.resources.getIntArray(R.array.arrayThemeColor)
-                App.themeColor.postValue(arrayThemeColor[which])
-            }
-            dialog.show()
+        settingVM.startSettingActivityEvent.observe(this, Observer {
+            createThemeSelectDialog(this)
         })
 
+        //태마 색상 업데이트
+        App.themeColor.observe(this, Observer {
+            window.statusBarColor = it
+            settingVM.themeColor.value = it
+        })
     }
 
     fun createThemeSelectDialog(context:Context){
@@ -45,7 +42,6 @@ class SettingActivity : AppCompatActivity() {
         dialog.setItems(context.resources.getStringArray(R.array.arrayThemeName)) { dialog, which ->
             val arrayThemeColor = context.resources.getIntArray(R.array.arrayThemeColor)
             App.themeColor.postValue(arrayThemeColor[which])
-
         }
         dialog.show()
     }

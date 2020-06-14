@@ -43,7 +43,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     kapt "com.android.databinding:compiler:3.0.1"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
-    //google map
+    //google play location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    //naver map api
+    implementation 'com.naver.maps:map-sdk:3.8.0'
 }
