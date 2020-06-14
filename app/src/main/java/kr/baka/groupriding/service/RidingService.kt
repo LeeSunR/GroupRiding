@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -51,6 +53,7 @@ class RidingService: Service() {
     private var myTimerTask:MyTimerTask = MyTimerTask()
     private var ridingTime:Time = Time(0)
     private var restTime:Time = Time(0)
+    private lateinit var mainVM:MainViewModel
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.v(tag,"onBind")
@@ -60,6 +63,7 @@ class RidingService: Service() {
     override fun onCreate() {
         super.onCreate()
         Log.v(tag,"onCreate")
+        mainVM = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(MainViewModel::class.java)
         initData()
         startForegroundNotification()
     }
@@ -104,11 +108,17 @@ class RidingService: Service() {
     }
 
     private fun initData(){
-        App.avgSpeedLiveData.value = "0"
-        App.distanceLiveData.value = "0"
-        App.speedLiveData.value = "0"
-        App.ridingTimeLiveData.value = "0:00:00"
-        App.restTimeLiveData.value = "0:00:00"
+        mainVM.layoutTopLeft.value!!.setData("0")
+        mainVM.layoutTopRight.value!!.setData("0")
+        mainVM.layoutMiddle.value!!.setData("0")
+        mainVM.layoutBottomLeft.value!!.setData("0")
+        mainVM.layoutBottomRight.value!!.setData("0")
+
+//        App.avgSpeedLiveData.value = "0"
+//        App.distanceLiveData.value = "0"
+//        App.speedLiveData.value = "0"
+//        App.ridingTimeLiveData.value = "0:00:00"
+//        App.restTimeLiveData.value = "0:00:00"
     }
 
     inner class MyLocationListener:LocationListener{
