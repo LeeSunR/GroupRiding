@@ -4,6 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="settingVM"
+            type="kr.baka.groupriding.viewmodel.SettingViewModel" />
+        <variable
+            name="mainVM"
+            type="kr.baka.groupriding.viewmodel.MainViewModel" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -54,6 +63,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:padding="8dp"
+                android:clickable="true"
+                android:onClick="@{()->settingVM.showThemeSelectDialog()}"
+                android:background="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -65,13 +77,13 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="색상"
+                        android:text="태마"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:layout_marginLeft="4dp"
                         android:textSize="12sp"
-                        android:text="메인 테마 색상을 설정합니다"
+                        android:text="@{settingVM.themeName}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -97,31 +109,6 @@
                         android:layout_marginLeft="4dp"
                         android:textSize="12sp"
                         android:text="속도, 거리, 주행시간등 레이아웃 배치를 설정합니다"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="잠금화면 위에 표시"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_marginLeft="4dp"
-                        android:textSize="12sp"
-                        android:text="주행중 화면이 꺼도 자동으로 앱이 실행됩니다"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>

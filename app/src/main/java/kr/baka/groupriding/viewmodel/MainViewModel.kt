@@ -21,6 +21,9 @@ import kotlin.reflect.KClass
 
 @Parcelize
 class MainViewModel: ViewModel(), Parcelable {
+
+    val tag = MainViewModel::class.java.simpleName
+
     val layoutTopLeft = MutableLiveData<Information>()
     val layoutTopRight = MutableLiveData<Information>()
     val layoutMiddle = MutableLiveData<Information>()
@@ -36,23 +39,11 @@ class MainViewModel: ViewModel(), Parcelable {
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
-        bindingSetting()
         observeForever()
     }
 
     override fun onCleared() {
         super.onCleared()
-    }
-
-    fun click(){
-
-    }
-
-    fun bindingSetting(){
-        backgroundColor.value = App.themeColor.value
-        App.themeColor.observeForever {
-            backgroundColor.value = it
-        }
     }
 
     fun startRuning(boolean: Boolean){

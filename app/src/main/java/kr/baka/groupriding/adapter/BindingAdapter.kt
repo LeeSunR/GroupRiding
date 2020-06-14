@@ -1,5 +1,6 @@
 package kr.baka.groupriding.adapter
 
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
@@ -16,7 +17,7 @@ object BindingAdapter{
     fun setVariableTextSize(view: TextView, type: Int) {
         when(type){
             SIZE_MAIN_FLOAT->
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 100f)
+                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 150f)
             SIZE_SUB_FLOAT->
                 view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 64f)
             SIZE_SUB_TIME->
@@ -26,8 +27,8 @@ object BindingAdapter{
 
     @BindingAdapter("variableBackgroundColor")
     @JvmStatic
-    fun setVariableBackgroundColor(view: View, type: Int) {
-        val color = ContextCompat.getColor(App.context,type)
+    fun setVariableBackgroundColor(view: View, color: Int) {
+        Log.e("tag","call")
         view.setBackgroundColor(color)
     }
 }

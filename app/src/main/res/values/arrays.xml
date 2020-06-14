@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="arrayThemeColor">
+        <item>@color/colorThemeDark</item>
+        <item>@color/colorThemeBlue</item>
+        <item>@color/colorThemeOrange</item>
+    </array>
+
+    <array name="arrayThemeName">
+        <item>@string/stringThemeDark</item>
+        <item>@string/stringThemeBlue</item>
+        <item>@string/stringThemeOrange</item>
+    </array>
+
+</resources>

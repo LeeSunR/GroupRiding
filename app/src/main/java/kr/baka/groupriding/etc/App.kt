@@ -25,7 +25,10 @@ class App:Application(){
     override fun onCreate() {
         context = applicationContext
         sharedPreferences = MySharedPreferences(context)
-        themeColor.value = sharedPreferences.getThemeColor
+        themeColor.value = sharedPreferences.themeColor
+        themeColor.observeForever {
+            sharedPreferences.themeColor = it
+        }
         super.onCreate()
     }
 
