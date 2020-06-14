@@ -17,6 +17,9 @@ class App:Application(){
         var ridingTimeLiveData = MutableLiveData<String>()
         var restTimeLiveData = MutableLiveData<String>()
         var themeColor = MutableLiveData<Int>()
+
+        var location = MutableLiveData<Pair<Int,Int>>()
+
         var sumOfSpeed = 0
         var countOfSampling = 0
     }
