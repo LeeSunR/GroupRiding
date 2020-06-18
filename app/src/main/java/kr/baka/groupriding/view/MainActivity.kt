@@ -1,17 +1,22 @@
 package kr.baka.groupriding.view
 
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
-import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.OverlayImage
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
 import kr.baka.groupriding.etc.App
@@ -19,7 +24,7 @@ import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.viewmodel.MainViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,15 @@ class MainActivity : AppCompatActivity() {
         var count = 0
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        //NAVER MAP FRAGMENT INIT
+        val fm = supportFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.map, it).commit()
+            }
+        mapFragment.getMapAsync(this)
+
         viewModel.startRunningService.observe(this, Observer {
             if(App.isServiceRunning.value==false){
                 val intent = Intent(this, RidingService::class.java)
@@ -77,8 +91,28 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        //TODO 브로드케스트 송신 수신 체크
+    override fun onMapReady(naverMap: NaverMap) {
+        Log.e("onMapReady","called")
+        naverMap.mapType = NaverMap.MapType.Basic
+        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING,false)
+        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_TRANSIT,false)
+        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_MOUNTAIN,false)
+        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BICYCLE,true)
+        naverMap.isNightModeEnabled = true
+        naverMap.uiSettings.isScaleBarEnabled=false
+        naverMap.uiSettings.isZoomControlEnabled=false
+
+        val locationOverlay = naverMap.locationOverlay
+        locationOverlay.isVisible = true
+        locationOverlay.position = LatLng(37.5670135, 126.9783740)
+        locationOverlay.bearing = 90f
+
+        val bitmap = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val paint = Paint().also { it.color=Color.RED }
+        canvas.drawCircle(16f,16f,16f,paint)
+
+        locationOverlay.icon = OverlayImage.fromBitmap(bitmap)
     }
+
 }

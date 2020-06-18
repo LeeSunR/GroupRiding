@@ -79,7 +79,7 @@ class RidingService: Service() {
             return START_NOT_STICKY
         }
         else {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeInterval, 0f,myLocationListener)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeInterval, 0f,myLocationListener)
         }
 
         return START_STICKY
@@ -126,17 +126,17 @@ class RidingService: Service() {
         override fun onLocationChanged(location: Location?) {
             if(location!=null){
 
-//                speed = (location.speed*3600/1000).toInt()
-//                if(previousLocation!=null && speed!!>0){
-//                    val newDistance = previousLocation!!.distanceTo(location) // m/s
-//                    distance += (newDistance*100).toInt() //cm
-//                }
-
-                if(previousLocation!=null){
+                speed = (location.speed*3600/1000).toInt()
+                if(previousLocation!=null && speed!!>0){
                     val newDistance = previousLocation!!.distanceTo(location) // m/s
-                    speed = (newDistance*3600/1000).toInt()
                     distance += (newDistance*100).toInt() //cm
                 }
+
+//                if(previousLocation!=null){
+//                    val newDistance = previousLocation!!.distanceTo(location) // m/s
+//                    speed = (newDistance*3600/1000).toInt()
+//                    distance += (newDistance*100).toInt() //cm
+//                }
 
                 if (speed>0) {
                     sumOfSpeed += speed
