@@ -20,18 +20,21 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutMiddle = MutableLiveData<Information>()
     val layoutBottomLeft = MutableLiveData<Information>()
     val layoutBottomRight = MutableLiveData<Information>()
-    var tgRidingStatus = MutableLiveData<Boolean>()
     var backgroundColor = MutableLiveData<Int>()
 
 
     val startPopupMenuEvent = SingleLiveData<View>()
+    var startRunningService = SingleLiveData<Any>()
 
+
+    val isServiceRunning  =MutableLiveData<Boolean>()
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
         layoutTopRight.value = Information(Information.TYPE_ACG_SPEED,Information.SIZE_SUB_FLOAT)
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
+        isServiceRunning.value = false
         observeForever()
     }
 
@@ -39,8 +42,8 @@ class MainViewModel: ViewModel(), Parcelable {
         super.onCleared()
     }
 
-    fun startRuning(boolean: Boolean){
-        tgRidingStatus.value = boolean
+    fun startRuning(){
+        startRunningService.call()
     }
 
     fun startSettingActivity(view: View){
@@ -53,6 +56,8 @@ class MainViewModel: ViewModel(), Parcelable {
         observeLayout(layoutMiddle)
         observeLayout(layoutBottomLeft)
         observeLayout(layoutBottomRight)
+
+
     }
 
     private fun observeLayout(layout:MutableLiveData<Information>){

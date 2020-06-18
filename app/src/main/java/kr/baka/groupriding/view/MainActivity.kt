@@ -1,5 +1,7 @@
 package kr.baka.groupriding.view
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,15 +29,13 @@ class MainActivity : AppCompatActivity() {
         var count = 0
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        viewModel.tgRidingStatus.observe(this, Observer {
-            if(it){
+        viewModel.startRunningService.observe(this, Observer {
+            if(App.isServiceRunning.value==false){
                 val intent = Intent(this, RidingService::class.java)
-                //intent.putExtra("viewModel",viewModel.layoutMiddle)
                 startService(intent)
             }
             else{
                 val intent = Intent(this, RidingService::class.java)
-                //intent.putExtra("viewModel",viewModel)
                 stopService(intent)
             }
         })
@@ -70,5 +70,15 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = it
             viewModel.backgroundColor.value = it
         })
+
+        App.isServiceRunning.observe(this, Observer {
+            Log.e("service",it.toString())
+            viewModel.isServiceRunning.value = it
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //TODO 브로드케스트 송신 수신 체크
     }
 }

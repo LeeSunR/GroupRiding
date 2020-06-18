@@ -37,7 +37,7 @@ object BindingAdapter{
 
     @BindingAdapter("initMap")
     @JvmStatic
-    fun setInitMap(view: MapView, color:Int) {
+    fun setInitMap(view: MapView, flag:Boolean) {
         view.getMapAsync {
             Log.e("map","onMapReady")
         }

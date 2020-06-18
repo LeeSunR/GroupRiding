@@ -88,6 +88,7 @@ class RidingService: Service() {
     override fun onDestroy() {
         Log.v(tag,"onDestroy")
         timer.cancel()
+        App.isServiceRunning.value = false
         locationManager.removeUpdates(myLocationListener)
         super.onDestroy()
     }
@@ -113,7 +114,7 @@ class RidingService: Service() {
         mainVM.layoutMiddle.value!!.setData("0")
         mainVM.layoutBottomLeft.value!!.setData("0")
         mainVM.layoutBottomRight.value!!.setData("0")
-
+        App.isServiceRunning.value = true
 //        App.avgSpeedLiveData.value = "0"
 //        App.distanceLiveData.value = "0"
 //        App.speedLiveData.value = "0"
@@ -125,8 +126,8 @@ class RidingService: Service() {
         override fun onLocationChanged(location: Location?) {
             if(location!=null){
 
-//                speed.value = (location.speed*3600/1000).toInt()
-//                if(previousLocation!=null && speed.value!!>0){
+//                speed = (location.speed*3600/1000).toInt()
+//                if(previousLocation!=null && speed!!>0){
 //                    val newDistance = previousLocation!!.distanceTo(location) // m/s
 //                    distance += (newDistance*100).toInt() //cm
 //                }

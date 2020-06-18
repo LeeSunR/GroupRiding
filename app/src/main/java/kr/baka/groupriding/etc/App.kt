@@ -22,6 +22,8 @@ class App:Application(){
 
         var sumOfSpeed = 0
         var countOfSampling = 0
+
+        var isServiceRunning = MutableLiveData<Boolean>()
     }
 
 
@@ -32,6 +34,7 @@ class App:Application(){
         themeColor.observeForever {
             sharedPreferences.themeColor = it
         }
+        isServiceRunning.value = false
         super.onCreate()
     }
 
