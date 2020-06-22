@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorDefaultBackGround">#3498DB</color>
     <color name="colorDefaultForeground">#FFFFFF</color>
+    <color name="colorUnchecked">#AAA</color>
 
 
     <color name="colorThemeBlue">#3498DB</color>

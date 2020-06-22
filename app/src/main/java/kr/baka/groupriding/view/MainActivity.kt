@@ -20,6 +20,7 @@ import com.naver.maps.map.overlay.OverlayImage
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.viewmodel.MainViewModel
 
@@ -92,27 +93,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-        Log.e("onMapReady","called")
-        naverMap.mapType = NaverMap.MapType.Basic
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING,false)
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_TRANSIT,false)
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_MOUNTAIN,false)
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BICYCLE,true)
-        naverMap.isNightModeEnabled = true
-        naverMap.uiSettings.isScaleBarEnabled=false
-        naverMap.uiSettings.isZoomControlEnabled=false
-
-        val locationOverlay = naverMap.locationOverlay
-        locationOverlay.isVisible = true
-        locationOverlay.position = LatLng(37.5670135, 126.9783740)
-        locationOverlay.bearing = 90f
-
-        val bitmap = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val paint = Paint().also { it.color=Color.RED }
-        canvas.drawCircle(16f,16f,16f,paint)
-
-        locationOverlay.icon = OverlayImage.fromBitmap(bitmap)
+        Map.initialization(naverMap)
     }
 
 }

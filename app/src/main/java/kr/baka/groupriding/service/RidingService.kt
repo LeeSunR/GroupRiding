@@ -25,7 +25,9 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.naver.maps.geometry.LatLng
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.viewmodel.MainViewModel
 import java.sql.Time
 import java.text.SimpleDateFormat
@@ -79,7 +81,7 @@ class RidingService: Service() {
             return START_NOT_STICKY
         }
         else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeInterval, 0f,myLocationListener)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0.2f,myLocationListener)
         }
 
         return START_STICKY
@@ -126,17 +128,17 @@ class RidingService: Service() {
         override fun onLocationChanged(location: Location?) {
             if(location!=null){
 
-                speed = (location.speed*3600/1000).toInt()
-                if(previousLocation!=null && speed!!>0){
-                    val newDistance = previousLocation!!.distanceTo(location) // m/s
-                    distance += (newDistance*100).toInt() //cm
-                }
-
-//                if(previousLocation!=null){
+//                speed = (location.speed*3600/1000).toInt()
+//                if(previousLocation!=null && speed!!>0){
 //                    val newDistance = previousLocation!!.distanceTo(location) // m/s
-//                    speed = (newDistance*3600/1000).toInt()
 //                    distance += (newDistance*100).toInt() //cm
 //                }
+
+                if(previousLocation!=null){
+                    val newDistance = previousLocation!!.distanceTo(location) // m/s
+                    speed = (newDistance*3600/1000).toInt()
+                    distance += (newDistance*100).toInt() //cm
+                }
 
                 if (speed>0) {
                     sumOfSpeed += speed
@@ -146,6 +148,10 @@ class RidingService: Service() {
                 if (speedSamplingCount>0) App.avgSpeedLiveData.value = (sumOfSpeed/speedSamplingCount).toString()
                 App.distanceLiveData.value = (distance/100).toString()
                 App.speedLiveData.value = speed.toString()
+
+                //naver map update
+                Map.myLocationUpdate(LatLng(location))
+
                 previousLocation = location
             }
         }
