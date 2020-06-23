@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -19,7 +20,10 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.OverlayImage
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
+import kr.baka.groupriding.databinding.ActivityMainBinding.inflate
+import kr.baka.groupriding.databinding.DialogAskGroupRidingStartBinding.inflate
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.etc.App.Companion.context
 import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.viewmodel.MainViewModel
@@ -44,14 +48,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         mapFragment.getMapAsync(this)
 
-        viewModel.startRunningService.observe(this, Observer {
-            if(App.isServiceRunning.value==false){
-                val intent = Intent(this, RidingService::class.java)
-                startService(intent)
+        viewModel.startGroupRidingService.observe(this, Observer {
+            if (App.isGroupRidingServiceRunning.value==false){
+                AskGroupRidingStartDialog(this).show()
             }
             else{
-                val intent = Intent(this, RidingService::class.java)
-                stopService(intent)
+                //AskGroupRidingStopDialog(this).start()
             }
         })
 
@@ -86,14 +88,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             viewModel.backgroundColor.value = it
         })
 
-        App.isServiceRunning.observe(this, Observer {
-            Log.e("service",it.toString())
-            viewModel.isServiceRunning.value = it
-        })
     }
 
     override fun onMapReady(naverMap: NaverMap) {
         Map.initialization(naverMap)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val intent = Intent(this, RidingService::class.java)
+        startService(intent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val intent = Intent(this, RidingService::class.java)
+        stopService(intent)
     }
 
 }

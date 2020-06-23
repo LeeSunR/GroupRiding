@@ -13,21 +13,10 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.naver.maps.geometry.LatLng
 import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.viewmodel.MainViewModel
 import java.sql.Time
 import java.text.SimpleDateFormat
@@ -55,7 +44,6 @@ class RidingService: Service() {
     private var myTimerTask:MyTimerTask = MyTimerTask()
     private var ridingTime:Time = Time(0)
     private var restTime:Time = Time(0)
-    private lateinit var mainVM:MainViewModel
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.v(tag,"onBind")
@@ -65,9 +53,8 @@ class RidingService: Service() {
     override fun onCreate() {
         super.onCreate()
         Log.v(tag,"onCreate")
-        mainVM = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(MainViewModel::class.java)
         initData()
-        startForegroundNotification()
+        //startForegroundNotification()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -90,7 +77,7 @@ class RidingService: Service() {
     override fun onDestroy() {
         Log.v(tag,"onDestroy")
         timer.cancel()
-        App.isServiceRunning.value = false
+        App.isRidingServiceRunning.value = false
         locationManager.removeUpdates(myLocationListener)
         super.onDestroy()
     }
@@ -111,17 +98,12 @@ class RidingService: Service() {
     }
 
     private fun initData(){
-        mainVM.layoutTopLeft.value!!.setData("0")
-        mainVM.layoutTopRight.value!!.setData("0")
-        mainVM.layoutMiddle.value!!.setData("0")
-        mainVM.layoutBottomLeft.value!!.setData("0")
-        mainVM.layoutBottomRight.value!!.setData("0")
-        App.isServiceRunning.value = true
-//        App.avgSpeedLiveData.value = "0"
-//        App.distanceLiveData.value = "0"
-//        App.speedLiveData.value = "0"
-//        App.ridingTimeLiveData.value = "0:00:00"
-//        App.restTimeLiveData.value = "0:00:00"
+        App.isRidingServiceRunning.value = true
+        App.avgSpeedLiveData.value = "0"
+        App.distanceLiveData.value = "0"
+        App.speedLiveData.value = "0"
+        App.ridingTimeLiveData.value = "0:00:00"
+        App.restTimeLiveData.value = "0:00:00"
     }
 
     inner class MyLocationListener:LocationListener{
@@ -148,9 +130,7 @@ class RidingService: Service() {
                 if (speedSamplingCount>0) App.avgSpeedLiveData.value = (sumOfSpeed/speedSamplingCount).toString()
                 App.distanceLiveData.value = (distance/100).toString()
                 App.speedLiveData.value = speed.toString()
-
-                //naver map update
-                Map.myLocationUpdate(LatLng(location))
+                App.location.value = location
 
                 previousLocation = location
             }

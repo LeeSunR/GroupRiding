@@ -2,6 +2,7 @@ package kr.baka.groupriding.etc
 
 import android.app.Application
 import android.content.Context
+import android.location.Location
 import androidx.lifecycle.MutableLiveData
 
 class App:Application(){
@@ -17,13 +18,11 @@ class App:Application(){
         var ridingTimeLiveData = MutableLiveData<String>()
         var restTimeLiveData = MutableLiveData<String>()
         var themeColor = MutableLiveData<Int>()
-
-        var location = MutableLiveData<Pair<Int,Int>>()
-
+        var location = MutableLiveData<Location>()
         var sumOfSpeed = 0
         var countOfSampling = 0
-
-        var isServiceRunning = MutableLiveData<Boolean>()
+        var isRidingServiceRunning = MutableLiveData<Boolean>()
+        var isGroupRidingServiceRunning = MutableLiveData<Boolean>()
     }
 
 
@@ -34,7 +33,8 @@ class App:Application(){
         themeColor.observeForever {
             sharedPreferences.themeColor = it
         }
-        isServiceRunning.value = false
+        isRidingServiceRunning.value = false
+        isGroupRidingServiceRunning.value = false
         super.onCreate()
     }
 

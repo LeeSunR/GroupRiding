@@ -24,17 +24,19 @@ class MainViewModel: ViewModel(), Parcelable {
 
 
     val startPopupMenuEvent = SingleLiveData<View>()
-    var startRunningService = SingleLiveData<Any>()
+    var startGroupRidingService = SingleLiveData<Any>()
 
+    val groupStartButtonVisibility = MutableLiveData<Int>()
+    val groupStopButtonVisibility = MutableLiveData<Int>()
 
-    val isServiceRunning  =MutableLiveData<Boolean>()
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
         layoutTopRight.value = Information(Information.TYPE_ACG_SPEED,Information.SIZE_SUB_FLOAT)
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
-        isServiceRunning.value = false
+        groupStartButtonVisibility.value = View.INVISIBLE
+        groupStopButtonVisibility.value = View.INVISIBLE
         observeForever()
     }
 
@@ -42,8 +44,8 @@ class MainViewModel: ViewModel(), Parcelable {
         super.onCleared()
     }
 
-    fun startRuning(){
-        startRunningService.call()
+    fun groupRidingToggle(){
+        startGroupRidingService.call()
     }
 
     fun startSettingActivity(view: View){
@@ -57,7 +59,16 @@ class MainViewModel: ViewModel(), Parcelable {
         observeLayout(layoutBottomLeft)
         observeLayout(layoutBottomRight)
 
-
+        App.isGroupRidingServiceRunning.observeForever {
+            if (it){
+                groupStartButtonVisibility.value = View.INVISIBLE
+                groupStopButtonVisibility.value = View.VISIBLE
+            }
+            else {
+                groupStartButtonVisibility.value = View.VISIBLE
+                groupStopButtonVisibility.value = View.INVISIBLE
+            }
+        }
     }
 
     private fun observeLayout(layout:MutableLiveData<Information>){

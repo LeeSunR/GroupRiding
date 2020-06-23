@@ -37,7 +37,6 @@ class Information(type:Int, size:Int): BaseObservable() {
     fun getType() = this.type
     fun setType(value: Int){
         this.type = value
-        Log.e("d",value.toString())
         when(value){
             TYPE_UNKNOWN -> setTitle("-")
             TYPE_DISTANCE -> setTitle(App.context!!.getString(R.string.stringInfoDistance))
@@ -50,7 +49,6 @@ class Information(type:Int, size:Int): BaseObservable() {
 
     fun getTitle() = this.title
     private fun setTitle(value: String){
-        Log.e("dddd",value)
         this.title = value
         notifyPropertyChanged(1)
     }

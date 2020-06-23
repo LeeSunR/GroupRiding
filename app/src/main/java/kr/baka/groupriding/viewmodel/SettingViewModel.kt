@@ -28,8 +28,6 @@ class SettingViewModel :ViewModel(){
         for (i in 0 until themeColorArray.size-1){
 
 
-            Log.e(tag,themeColorArray[i].toString() +"  /  "+App.themeColor.value.toString())
-
             if (themeColorArray[i]==App.themeColor.value) {
                 themeName.value = themeNameArray[i]
                 break

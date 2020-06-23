@@ -9,6 +9,7 @@ import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.OverlayImage
+import kr.baka.groupriding.etc.App
 
 object Map {
 
@@ -39,6 +40,12 @@ object Map {
 
         locationOverlay.icon = OverlayImage.fromBitmap(bitmap)
         locationOverlay.position = LatLng(37.5700000, 127.9783740)
+
+        //live data binging
+        App.location.observeForever {
+            myLocationUpdate(LatLng(it))
+        }
+
     }
 
     fun myLocationUpdate(latLng: LatLng){
