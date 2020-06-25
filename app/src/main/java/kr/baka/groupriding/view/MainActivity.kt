@@ -18,6 +18,9 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.OverlayImage
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
 import kr.baka.groupriding.databinding.ActivityMainBinding.inflate
@@ -27,6 +30,7 @@ import kr.baka.groupriding.etc.App.Companion.context
 import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.viewmodel.MainViewModel
+import java.net.URISyntaxException
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -48,13 +52,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         mapFragment.getMapAsync(this)
 
-        viewModel.startGroupRidingService.observe(this, Observer {
-            if (App.isGroupRidingServiceRunning.value==false){
-                AskGroupRidingStartDialog(this).show()
-            }
-            else{
-                //AskGroupRidingStopDialog(this).start()
-            }
+        viewModel.startGroupRidingServiceEvent.observe(this, Observer {
+            AskGroupRidingStartDialog(this).show()
+        })
+
+        viewModel.stopGroupRidingServiceEvent.observe(this, Observer {
+            AskGroupRidingStopDialog(this).show()
         })
 
         viewModel.startPopupMenuEvent.observe(this, Observer {

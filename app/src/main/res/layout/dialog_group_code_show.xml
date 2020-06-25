@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="vm"
+            type="kr.baka.groupriding.viewmodel.AskGroupRidingStopViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:text="그룹 생성 완료"
+            android:background="@color/colorDefaultBackGround"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:text="그룹이 생선되었습니다.\n 아래 코드를 공유하면 친구를 초대 할 수 있습니다."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="16dp"
+            android:background="@color/colorDefaultForeground"/>
+
+        <TextView
+            android:text="DC23DD"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:paddingHorizontal="60dp"
+            android:textColor="#F22"
+            android:textSize="32dp"
+            android:background="@color/colorDefaultForeground"/>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:onClick="@{()->vm.stopGroupRidingService()}"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="확인"
+                android:textColor="#FFF"
+                android:textSize="16dp"
+                android:background="@color/colorButtonConfirm"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+    </LinearLayout>
+</layout>

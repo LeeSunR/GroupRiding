@@ -7,8 +7,10 @@
     <color name="colorDefaultForeground">#FFFFFF</color>
     <color name="colorUnchecked">#AAA</color>
 
-
     <color name="colorThemeBlue">#3498DB</color>
     <color name="colorThemeOrange">#FF5722</color>
     <color name="colorThemeDark">#000000</color>
+
+    <color name="colorButtonDanger">#C82828</color>
+    <color name="colorButtonConfirm">#2828C8</color>
 </resources>

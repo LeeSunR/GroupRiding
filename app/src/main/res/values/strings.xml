@@ -12,4 +12,7 @@
     <string name="stringThemeDark">다크</string>
     <string name="stringThemeBlue">청록색</string>
     <string name="stringThemeOrange">오랜지</string>
+
+
+    <string name="groupRidingServiceHost">http://192.168.35.235:6060</string>
 </resources>

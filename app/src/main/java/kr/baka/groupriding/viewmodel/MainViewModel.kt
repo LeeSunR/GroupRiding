@@ -24,7 +24,8 @@ class MainViewModel: ViewModel(), Parcelable {
 
 
     val startPopupMenuEvent = SingleLiveData<View>()
-    var startGroupRidingService = SingleLiveData<Any>()
+    var startGroupRidingServiceEvent = SingleLiveData<Any>()
+    var stopGroupRidingServiceEvent = SingleLiveData<Any>()
 
     val groupStartButtonVisibility = MutableLiveData<Int>()
     val groupStopButtonVisibility = MutableLiveData<Int>()
@@ -44,8 +45,12 @@ class MainViewModel: ViewModel(), Parcelable {
         super.onCleared()
     }
 
-    fun groupRidingToggle(){
-        startGroupRidingService.call()
+    fun startGroupRidingService(){
+        startGroupRidingServiceEvent.call()
+    }
+
+    fun stopGroupRidingService(){
+        stopGroupRidingServiceEvent.call()
     }
 
     fun startSettingActivity(view: View){

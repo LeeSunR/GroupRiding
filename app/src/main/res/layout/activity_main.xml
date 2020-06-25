@@ -29,7 +29,7 @@
 
         <Button
             android:visibility="@{viewModel.groupStartButtonVisibility}"
-            android:onClick="@{()->viewModel.groupRidingToggle()}"
+            android:onClick="@{()->viewModel.startGroupRidingService()}"
             android:id="@+id/tgRunning"
             android:layout_margin="16dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +45,7 @@
 
         <Button
             android:visibility="@{viewModel.groupStopButtonVisibility}"
-            android:onClick="@{()->viewModel.groupRidingToggle()}"
+            android:onClick="@{()->viewModel.stopGroupRidingService()}"
             android:id="@+id/btnRunningStop"
             android:layout_margin="16dp"
             app:layout_constraintTop_toTopOf="parent"
