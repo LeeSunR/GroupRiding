@@ -1,6 +1,9 @@
 package kr.baka.groupriding.view
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,6 +39,8 @@ import java.net.URISyntaxException
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private var groupCreateCompletedBroadcastReceiver:GroupCreateCompletedBroadcastReceiver? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
@@ -52,12 +58,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         mapFragment.getMapAsync(this)
 
+        //view model event
         viewModel.startGroupRidingServiceEvent.observe(this, Observer {
             AskGroupRidingStartDialog(this).show()
         })
 
         viewModel.stopGroupRidingServiceEvent.observe(this, Observer {
             AskGroupRidingStopDialog(this).show()
+        })
+
+        viewModel.inviteCodeDialogShowEvent.observe(this, Observer {
+            GroupCodeShowDialog(this).show()
         })
 
         viewModel.startPopupMenuEvent.observe(this, Observer {
@@ -85,12 +96,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             popupMenu.show()
         })
 
-        //태마 색상 업데이트
-        App.themeColor.observe(this, Observer {
-            window.statusBarColor = it
-            viewModel.backgroundColor.value = it
-        })
-
+        //broadcast receivers
+        val filter = IntentFilter()
+        filter.addAction("GroupCreateCompletedBroadcast")
+        groupCreateCompletedBroadcastReceiver = GroupCreateCompletedBroadcastReceiver()
+        registerReceiver(groupCreateCompletedBroadcastReceiver, filter);
     }
 
     override fun onMapReady(naverMap: NaverMap) {
@@ -107,6 +117,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onStop()
         val intent = Intent(this, RidingService::class.java)
         stopService(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(groupCreateCompletedBroadcastReceiver)
+    }
+
+    inner class GroupCreateCompletedBroadcastReceiver() : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            GroupCodeShowDialog(context).show()
+        }
     }
 
 }

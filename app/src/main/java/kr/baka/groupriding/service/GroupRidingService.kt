@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import io.socket.client.IO
@@ -16,7 +15,6 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kr.baka.groupriding.etc.App
 import org.json.JSONObject
-import java.net.URISyntaxException
 
 
 class GroupRidingService: Service() {
@@ -39,8 +37,8 @@ class GroupRidingService: Service() {
         super.onStartCommand(intent, flags, startId)
         Log.v(tag,"onStartCommand")
         //startForegroundNotification()
-        connect()
-        mSocket.emit("create","")
+        val requestCreateGroup = intent!!.getBooleanExtra("RequestCreateGroup",false)
+        connect(requestCreateGroup)
         return START_STICKY
     }
 
@@ -49,7 +47,7 @@ class GroupRidingService: Service() {
         super.onDestroy()
     }
 
-    private fun connect(){
+    private fun connect(requestCreateGroup:Boolean){
         mSocket = IO.socket("http://192.168.35.235:6060")
         mSocket.on(Socket.EVENT_CONNECT, ConnectListener())
         mSocket.on(Socket.EVENT_DISCONNECT, DisconnectListener())
@@ -64,6 +62,10 @@ class GroupRidingService: Service() {
             json.put("latitude",it.latitude)
             json.put("longitude",it.longitude)
             mSocket.emit("update",json)
+        }
+
+        if (requestCreateGroup){
+            mSocket.emit("create","")
         }
     }
 
@@ -95,7 +97,6 @@ class GroupRidingService: Service() {
         override fun call(vararg args: Any?) {
             App.isGroupRidingServiceRunning.postValue(true)
             Log.v(tag,"connected")
-            Log.e(tag,mSocket.id())
         }
     }
 
@@ -115,6 +116,11 @@ class GroupRidingService: Service() {
     inner class GroupCreateCompletedListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
             Log.e(tag,"group created "+ args[0].toString())
+            App.inviteCode.postValue(args[0].toString())
+
+            val intent = Intent()
+            intent.action = "GroupCreateCompletedBroadcast"
+            sendBroadcast(intent)
         }
     }
 

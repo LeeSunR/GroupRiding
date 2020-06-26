@@ -18,6 +18,7 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:textColor="#ffffff"
+            android:textAlignment="center"
             android:textSize="16dp"
             android:text="그룹 라이딩을 시작하시겠습니까?"
             android:background="@color/colorDefaultBackGround"/>
@@ -46,6 +47,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:onClick="@{()->vm.joinGroupDialogShow()}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
@@ -61,7 +63,7 @@
                 android:background="#000000" />
 
             <Button
-                android:onClick="@{()->vm.startGroupRidingService()}"
+                android:onClick="@{()->vm.createGroupRidingService()}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"

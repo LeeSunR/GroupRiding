@@ -22,13 +22,14 @@ class MainViewModel: ViewModel(), Parcelable {
     val layoutBottomRight = MutableLiveData<Information>()
     var backgroundColor = MutableLiveData<Int>()
 
+    val groupRidingStartVisibility = MutableLiveData<Int>()
+    val groupRidingStopVisibility = MutableLiveData<Int>()
 
+    //event
     val startPopupMenuEvent = SingleLiveData<View>()
     var startGroupRidingServiceEvent = SingleLiveData<Any>()
     var stopGroupRidingServiceEvent = SingleLiveData<Any>()
-
-    val groupStartButtonVisibility = MutableLiveData<Int>()
-    val groupStopButtonVisibility = MutableLiveData<Int>()
+    var inviteCodeDialogShowEvent = SingleLiveData<Any>()
 
     init {
         layoutTopLeft.value = Information(Information.TYPE_DISTANCE,Information.SIZE_SUB_FLOAT)
@@ -36,13 +37,15 @@ class MainViewModel: ViewModel(), Parcelable {
         layoutMiddle.value = Information(Information.TYPE_SPEED,Information.SIZE_MAIN_FLOAT)
         layoutBottomLeft.value = Information(Information.TYPE_RIDING_TIME,Information.SIZE_SUB_TIME)
         layoutBottomRight.value = Information(Information.TYPE_REST_TIME,Information.SIZE_SUB_TIME)
-        groupStartButtonVisibility.value = View.INVISIBLE
-        groupStopButtonVisibility.value = View.INVISIBLE
         observeForever()
     }
 
     override fun onCleared() {
         super.onCleared()
+    }
+
+    fun inviteCodeDialogShow(){
+        inviteCodeDialogShowEvent.call()
     }
 
     fun startGroupRidingService(){
@@ -66,12 +69,12 @@ class MainViewModel: ViewModel(), Parcelable {
 
         App.isGroupRidingServiceRunning.observeForever {
             if (it){
-                groupStartButtonVisibility.value = View.INVISIBLE
-                groupStopButtonVisibility.value = View.VISIBLE
+                groupRidingStopVisibility.value = View.INVISIBLE
+                groupRidingStartVisibility.value = View.VISIBLE
             }
             else {
-                groupStartButtonVisibility.value = View.VISIBLE
-                groupStopButtonVisibility.value = View.INVISIBLE
+                groupRidingStopVisibility.value = View.VISIBLE
+                groupRidingStartVisibility.value = View.INVISIBLE
             }
         }
     }

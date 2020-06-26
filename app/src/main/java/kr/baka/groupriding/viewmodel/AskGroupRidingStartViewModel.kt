@@ -5,9 +5,14 @@ import androidx.lifecycle.ViewModel
 import kr.baka.groupriding.etc.SingleLiveData
 
 class AskGroupRidingStartViewModel : ViewModel(){
-    var eventStartGroupRidingService = SingleLiveData<Any>()
+    var eventCreateGroupRidingService = SingleLiveData<Any>()
+    var eventJoinGroupDialogShow = SingleLiveData<Any>()
 
-    fun startGroupRidingService(){
-        eventStartGroupRidingService.call()
+    fun createGroupRidingService(){
+        eventCreateGroupRidingService.call()
+    }
+
+    fun joinGroupDialogShow(){
+        eventJoinGroupDialogShow.call()
     }
 }

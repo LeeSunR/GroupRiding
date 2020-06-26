@@ -19,10 +19,13 @@ class App:Application(){
         var restTimeLiveData = MutableLiveData<String>()
         var themeColor = MutableLiveData<Int>()
         var location = MutableLiveData<Location>()
-        var sumOfSpeed = 0
-        var countOfSampling = 0
+
+        //service flag
         var isRidingServiceRunning = MutableLiveData<Boolean>()
         var isGroupRidingServiceRunning = MutableLiveData<Boolean>()
+
+        //service flag
+        var inviteCode = MutableLiveData<String>()
     }
 
 
