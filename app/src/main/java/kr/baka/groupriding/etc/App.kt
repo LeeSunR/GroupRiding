@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
+import kr.baka.groupriding.model.Member
 
 class App:Application(){
 
@@ -26,6 +27,9 @@ class App:Application(){
 
         //service flag
         var inviteCode = MutableLiveData<String>()
+
+        //members
+        var members = MutableLiveData<ArrayList<Member>>()
     }
 
 

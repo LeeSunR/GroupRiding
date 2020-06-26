@@ -6,16 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kr.baka.groupriding.etc.SingleLiveData
 
-class GroupRidingJoinViewModel : ViewModel(){
+class FailViewModel : ViewModel(){
     var eventCloseDialog = SingleLiveData<Any>()
-    var eventJoinGroupRidingService = SingleLiveData<Any>()
-    var inviteCode = MutableLiveData<String>()
+    var title = MutableLiveData<String>()
+    var message = MutableLiveData<String>()
 
     fun closeDialog(){
         eventCloseDialog.call()
-    }
-
-    fun joinGroupRidingService(){
-        eventJoinGroupRidingService.call()
     }
 }

@@ -13,29 +13,33 @@ import androidx.core.app.NotificationCompat
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
+import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class GroupRidingService: Service() {
 
-    private val tag = this::class.simpleName
+    private val TAG = this::class.simpleName
     private lateinit var mSocket:Socket
 
     override fun onBind(intent: Intent?): IBinder? {
-        Log.v(tag,"onBind")
+        Log.v(TAG,"onBind")
         return null
     }
 
     @SuppressLint("InvalidWakeLockTag")
     override fun onCreate() {
         super.onCreate()
-        Log.v(tag,"onCreate")
+        Log.v(TAG,"onCreate")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Log.v(tag,"onStartCommand")
+        Log.v(TAG,"onStartCommand")
         //startForegroundNotification()
         val requestCreateGroup = intent!!.getBooleanExtra("RequestCreateGroup",false)
         connect(requestCreateGroup)
@@ -44,6 +48,7 @@ class GroupRidingService: Service() {
 
     override fun onDestroy() {
         disconnect()
+        Log.v(TAG,"onDestroy")
         super.onDestroy()
     }
 
@@ -53,6 +58,7 @@ class GroupRidingService: Service() {
         mSocket.on(Socket.EVENT_DISCONNECT, DisconnectListener())
         mSocket.on(Socket.EVENT_CONNECT_ERROR, ConnectErrorListener())
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, ConnectErrorListener())
+        mSocket.on("joinError", JoinErrorListener())
         mSocket.on("groupCreateCompleted", GroupCreateCompletedListener())
         mSocket.on("GroupMemberLocationReceived", GroupMemberLocationReceivedListener())
         mSocket.connect()
@@ -64,9 +70,8 @@ class GroupRidingService: Service() {
             mSocket.emit("update",json)
         }
 
-        if (requestCreateGroup){
-            mSocket.emit("create","")
-        }
+        if (requestCreateGroup) mSocket.emit("create","")
+        else mSocket.emit("join",App.inviteCode.value)
     }
 
     private fun disconnect(){
@@ -96,26 +101,39 @@ class GroupRidingService: Service() {
     inner class ConnectListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
             App.isGroupRidingServiceRunning.postValue(true)
-            Log.v(tag,"connected")
+            Log.v(TAG,"connected")
         }
     }
 
     inner class DisconnectListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
-            Log.v(tag,"disconnected")
+            Log.v(TAG,"disconnected")
             onDestroy()
         }
     }
 
     inner class ConnectErrorListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
-            Log.v(tag,"connect error : "+args[0].toString())
+            Log.v(TAG,"connect error : "+args[0].toString())
+        }
+    }
+
+    inner class JoinErrorListener : Emitter.Listener{
+        override fun call(vararg args: Any?) {
+            Log.e(TAG,"Error : "+ args[0].toString())
+
+            val intent = Intent()
+            intent.action = "joinErrorBroadcast"
+            intent.putExtra("message",args[0].toString())
+            sendBroadcast(intent)
+
+            onDestroy()
         }
     }
 
     inner class GroupCreateCompletedListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
-            Log.e(tag,"group created "+ args[0].toString())
+            Log.e(TAG,"group created "+ args[0].toString())
             App.inviteCode.postValue(args[0].toString())
 
             val intent = Intent()
@@ -126,7 +144,20 @@ class GroupRidingService: Service() {
 
     inner class GroupMemberLocationReceivedListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
-            Log.e(tag,"GroupMemberLocationReceived "+ args[0].toString())
+            val jsonArray = JSONArray(args[0].toString())
+            val memberArrayList = ArrayList<Member>()
+            for (i in 0 until jsonArray.length()){
+                if(jsonArray.getJSONObject(i).getString("id") != mSocket.id()){
+                    val member = Member()
+                    member.nickname = jsonArray.getJSONObject(i).getString("nickname")
+                    member.latitude = jsonArray.getJSONObject(i).getDouble("latitude")
+                    member.longitude = jsonArray.getJSONObject(i).getDouble("longitude")
+                    member.lastDate = Date(jsonArray.getJSONObject(i).getLong("timeStamp"))
+                    member.id = jsonArray.getJSONObject(i).getString("id")
+                    memberArrayList.add(member)
+                }
+            }
+            App.members.postValue(memberArrayList)
         }
     }
 }

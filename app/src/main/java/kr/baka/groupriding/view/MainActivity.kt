@@ -40,6 +40,7 @@ import java.net.URISyntaxException
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var groupCreateCompletedBroadcastReceiver:GroupCreateCompletedBroadcastReceiver? = null
+    private var joinErrorBroadcastReceiver:JoinErrorBroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,10 +98,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
         //broadcast receivers
-        val filter = IntentFilter()
-        filter.addAction("GroupCreateCompletedBroadcast")
+        val groupCreateCompletedFilter = IntentFilter()
+        groupCreateCompletedFilter.addAction("GroupCreateCompletedBroadcast")
         groupCreateCompletedBroadcastReceiver = GroupCreateCompletedBroadcastReceiver()
-        registerReceiver(groupCreateCompletedBroadcastReceiver, filter);
+        registerReceiver(groupCreateCompletedBroadcastReceiver, groupCreateCompletedFilter)
+
+        val joinErrorFilter = IntentFilter()
+        joinErrorFilter.addAction("joinErrorBroadcast")
+        joinErrorBroadcastReceiver = JoinErrorBroadcastReceiver()
+        registerReceiver(joinErrorBroadcastReceiver, joinErrorFilter)
+
     }
 
     override fun onMapReady(naverMap: NaverMap) {
@@ -122,12 +129,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(groupCreateCompletedBroadcastReceiver)
+        unregisterReceiver(joinErrorBroadcastReceiver)
     }
 
-    inner class GroupCreateCompletedBroadcastReceiver() : BroadcastReceiver() {
+    inner class GroupCreateCompletedBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             GroupCodeShowDialog(context).show()
         }
     }
 
+    inner class JoinErrorBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val message = intent.getStringExtra("message")
+            FailDialog(context,"그룹 참가 실패","초대 코드가 유효하지 않습니다.\ncode : $message").show()
+        }
+    }
 }
