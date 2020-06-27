@@ -147,15 +147,15 @@ class GroupRidingService: Service() {
             val jsonArray = JSONArray(args[0].toString())
             val memberArrayList = ArrayList<Member>()
             for (i in 0 until jsonArray.length()){
-                if(jsonArray.getJSONObject(i).getString("id") != mSocket.id()){
-                    val member = Member()
-                    member.nickname = jsonArray.getJSONObject(i).getString("nickname")
-                    member.latitude = jsonArray.getJSONObject(i).getDouble("latitude")
-                    member.longitude = jsonArray.getJSONObject(i).getDouble("longitude")
-                    member.lastDate = Date(jsonArray.getJSONObject(i).getLong("timeStamp"))
-                    member.id = jsonArray.getJSONObject(i).getString("id")
-                    memberArrayList.add(member)
-                }
+                val member = Member()
+                member.nickname = jsonArray.getJSONObject(i).getString("nickname")
+                member.latitude = jsonArray.getJSONObject(i).getDouble("latitude")
+                member.longitude = jsonArray.getJSONObject(i).getDouble("longitude")
+                member.lastDate = Date(jsonArray.getJSONObject(i).getLong("timeStamp"))
+                member.owner = jsonArray.getJSONObject(i).getBoolean("owner")
+                member.me = (jsonArray.getJSONObject(i).getString("id") == mSocket.id())
+                member.id = jsonArray.getJSONObject(i).getString("id")
+                memberArrayList.add(member)
             }
             App.members.postValue(memberArrayList)
         }

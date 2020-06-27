@@ -8,6 +8,8 @@ class Member(
     var longitude:Double? = null,
     var lastDate: Date? = null,
     var id: String? = null,
+    var owner: Boolean? = null,
+    var me: Boolean? = null,
     var personalColor:Color? = null
 ) {
 

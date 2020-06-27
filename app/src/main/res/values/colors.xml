@@ -12,5 +12,7 @@
     <color name="colorThemeDark">#000000</color>
 
     <color name="colorButtonDanger">#C82828</color>
-    <color name="colorButtonConfirm">#2828C8</color>
+    <color name="colorButtonConfirm">#673AB7</color>
+
+
 </resources>
