@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">그룹라이딩</string>
+    <string name="stringStartGroupRiding">그룹라이딩 시작하기</string>
+    <string name="stringStopGroupRiding">정지하기</string>
+    <string name="stringInvite">초대하기</string>
+
+    <string name="stringMenuInvite">초대하기</string>
+    <string name="stringMenuDestination">경로 설정</string>
+    <string name="stringMenuRouteRecodingStart">경로 녹화</string>
+    <string name="stringMenuSetting">설정</string>
+
+    <string name="stringBtnCreate">생성</string>
+    <string name="stringBtnShare">공유</string>
+    <string name="stringBtnJoin">참가</string>
+    <string name="stringBtnClose">닫기</string>
+    <string name="stringBtnOk">확인</string>
+    <string name="stringBtnYes">네</string>
+    <string name="stringBtnNo">아니요</string>
+
+    <string name="string">Start Group Riding</string>
+    <string name="stringInfoSpeed">Speed</string>
+    <string name="stringInfoAvgSpeed">Avg Speed</string>
+    <string name="stringInfoDistance">Distance</string>
+    <string name="stringInfoRidingTime">Riding Time</string>
+    <string name="stringInfoRestTime">Rest Time</string>
+
+
+    <string name="stringThemeDark">다크</string>
+    <string name="stringThemeBlue">청록색</string>
+    <string name="stringThemeOrange">오랜지</string>
+
+    <!--    <string name="groupRidingServiceHost">http://baka.kr:6060</string>-->
+    <string name="groupRidingServiceHost">http://192.168.35.235:6060</string>
+</resources>

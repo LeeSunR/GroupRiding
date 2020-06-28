@@ -11,8 +11,8 @@
     <color name="colorThemeOrange">#FF5722</color>
     <color name="colorThemeDark">#000000</color>
 
-    <color name="colorButtonDanger">#C82828</color>
-    <color name="colorButtonConfirm">#673AB7</color>
+    <color name="colorButtonDanger">#F44336</color>
+    <color name="colorButtonConfirm">#2196F3</color>
 
 
 </resources>

@@ -1,18 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GroupRiding</string>
     <string name="stringStartGroupRiding">Start Group Riding</string>
+    <string name="stringStopGroupRiding">stop Group Riding</string>
+    <string name="stringInvite">invite</string>
+
+    <string name="stringMenuInvite">invite</string>
+    <string name="stringMenuDestination">destination</string>
+    <string name="stringMenuRouteRecodingStart">Route Recoding</string>
+    <string name="stringMenuSetting">setting</string>
+
+    <string name="stringBtnCreate">Create</string>
+    <string name="stringBtnShare">Share</string>
+    <string name="stringBtnJoin">Join</string>
+    <string name="stringBtnClose">Close</string>
+    <string name="stringBtnOk">Ok</string>
+    <string name="stringBtnYes">Yes</string>
+    <string name="stringBtnNo">No</string>
+
     <string name="string">Start Group Riding</string>
     <string name="stringInfoSpeed">Speed</string>
     <string name="stringInfoAvgSpeed">Avg Speed</string>
     <string name="stringInfoDistance">Distance</string>
     <string name="stringInfoRidingTime">Riding Time</string>
     <string name="stringInfoRestTime">Rest Time</string>
-    <string name="stringToggleRun">시작하기</string>
-    <string name="stringToggleStop">정지하기</string>
-    <string name="stringThemeDark">다크</string>
-    <string name="stringThemeBlue">청록색</string>
-    <string name="stringThemeOrange">오랜지</string>
 
 
+    <string name="stringThemeDark">dark</string>
+    <string name="stringThemeBlue">blue</string>
+    <string name="stringThemeOrange">orange</string>
+
+<!--    <string name="groupRidingServiceHost">http://baka.kr:6060</string>-->
     <string name="groupRidingServiceHost">http://192.168.35.235:6060</string>
 </resources>

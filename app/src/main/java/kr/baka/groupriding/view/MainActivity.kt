@@ -81,10 +81,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     R.id.menu_destination->{
 
                     }
-                    R.id.menu_create_group_riding->{
+                    R.id.menu_invite->{
 
                     }
-                    R.id.menu_join_group_riding->{
+                    R.id.menu_route_recoding_start->{
 
                     }
                     R.id.menu_start_setting_activity->{

@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_destination"
-        android:title="목적지 설정" />
+        android:title="@string/stringMenuDestination" />
     <item
-        android:id="@+id/menu_create_group_riding"
-        android:title="그룹 라이딩 생성" />
+        android:id="@+id/menu_route_recoding_start"
+        android:title="@string/stringMenuRouteRecodingStart" />
     <item
-        android:id="@+id/menu_join_group_riding"
-        android:title="그룹 라이딩 참여" />
+        android:id="@+id/menu_invite"
+        android:title="@string/stringMenuInvite" />
     <item
         android:id="@+id/menu_start_setting_activity"
-        android:title="설정" />
+        android:title="@string/stringMenuSetting" />
 </menu>

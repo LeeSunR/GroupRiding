@@ -67,7 +67,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="닫기"
+                android:text="@string/stringBtnClose"
                 android:textColor="#000"
                 android:textSize="16dp"
                 android:background="#FFF"/>
@@ -81,7 +81,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="공유하기"
+                android:text="@string/stringBtnShare"
                 android:textColor="#FFF"
                 android:textSize="16dp"
                 android:background="@color/colorButtonConfirm"/>

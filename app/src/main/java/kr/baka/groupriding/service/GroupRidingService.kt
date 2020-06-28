@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kr.baka.groupriding.R
 import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
 import org.json.JSONArray
@@ -53,7 +54,7 @@ class GroupRidingService: Service() {
     }
 
     private fun connect(requestCreateGroup:Boolean){
-        mSocket = IO.socket("http://192.168.35.235:6060")
+        mSocket = IO.socket(getString(R.string.groupRidingServiceHost))
         mSocket.on(Socket.EVENT_CONNECT, ConnectListener())
         mSocket.on(Socket.EVENT_DISCONNECT, DisconnectListener())
         mSocket.on(Socket.EVENT_CONNECT_ERROR, ConnectErrorListener())

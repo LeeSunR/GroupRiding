@@ -9,8 +9,7 @@ class Member(
     var lastDate: Date? = null,
     var id: String? = null,
     var owner: Boolean? = null,
-    var me: Boolean? = null,
-    var personalColor:Color? = null
+    var me: Boolean? = null
 ) {
 
     override fun toString(): String {
