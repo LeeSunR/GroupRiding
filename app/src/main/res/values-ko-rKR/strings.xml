@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">그룹라이딩</string>
+    <string name="app_version">0.1</string>
+
     <string name="stringStartGroupRiding">그룹라이딩 시작하기</string>
     <string name="stringStopGroupRiding">정지하기</string>
     <string name="stringInvite">초대하기</string>
@@ -25,11 +27,28 @@
     <string name="stringInfoRidingTime">Riding Time</string>
     <string name="stringInfoRestTime">Rest Time</string>
 
+    <string name="stringDialogTitleAskGroupRidingStart">그룹 라이딩을 시작하시겠습니까?</string>
+    <string name="stringDialogTitleAskGroupRidingStop">그룹 라이딩을 종료하시겠습니까?</string>
+    <string name="stringDialogTitleGroupCodeShow">초대 코드</string>
+    <string name="stringDialogTitleGroupRidingJoin">그룹 참가</string>
+
+    <string name="stringDialogMessageGroupCodeShow">아래 코드를 공유하면 친구를 초대 할 수 있습니다</string>
+    <string name="stringDialogMessageGroupRidingJoin">그룹에 참가하려면 초대 코드를 입력하세요</string>
+
+    <string name="stringSettingTopTitle">설정</string>
+    <string name="stringSettingTitleNickname">닉네임</string>
+    <string name="stringSettingTitleSamplingInterval">샘플링 간격</string>
+    <string name="stringSettingTitleMaxSpeed">최대 속도</string>
+    <string name="stringSettingTitleLockScreen">잠금화면 위에 표시</string>
+    <string name="stringSettingTitleAppVersion">앱 버전</string>
+    <string name="stringSettingTitleOpenSourceLicense">오픈 소스 라이센스</string>
+    <string name="stringSettingTitleDeveloperInfomation">개발자 정보</string>
+    <string name="stringSettingTitlePrivacyPolicy">개인정보 처리방침</string>
 
     <string name="stringThemeDark">다크</string>
     <string name="stringThemeBlue">청록색</string>
     <string name="stringThemeOrange">오랜지</string>
 
-    <!--    <string name="groupRidingServiceHost">http://baka.kr:6060</string>-->
-    <string name="groupRidingServiceHost">http://192.168.35.235:6060</string>
+    <string name="groupRidingServiceHostWAN">http://baka.kr:6060</string>
+    <string name="groupRidingServiceHostLAN">http://192.168.35.235:6060</string>
 </resources>

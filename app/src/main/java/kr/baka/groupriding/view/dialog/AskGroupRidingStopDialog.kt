@@ -1,19 +1,15 @@
-package kr.baka.groupriding.view
+package kr.baka.groupriding.view.dialog
 
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import androidx.databinding.DataBindingUtil
 import kr.baka.groupriding.R
-import kr.baka.groupriding.databinding.DialogAskGroupRidingStartBinding
 import kr.baka.groupriding.databinding.DialogAskGroupRidingStopBinding
 import kr.baka.groupriding.service.GroupRidingService
-import kr.baka.groupriding.service.RidingService
-import kr.baka.groupriding.viewmodel.AskGroupRidingStartViewModel
 import kr.baka.groupriding.viewmodel.AskGroupRidingStopViewModel
 
 

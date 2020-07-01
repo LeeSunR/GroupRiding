@@ -4,9 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.util.Log
-import androidx.annotation.ColorInt
-import androidx.core.graphics.alpha
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.NaverMap
@@ -16,8 +13,7 @@ import com.naver.maps.map.overlay.PathOverlay
 import kr.baka.groupriding.R
 import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.model.Member
-import kotlin.math.acos
-import kotlin.math.pow
+import kr.baka.groupriding.repository.SettingRepository
 
 object Map {
 
@@ -25,6 +21,8 @@ object Map {
     private val markerHashMap = HashMap<String, Marker>()
     private val pathArrayList = ArrayList<LatLng>()
     private val path = PathOverlay()
+    private val myInfoRepository = SettingRepository()
+
     fun initialization(naverMap: NaverMap){
         this.naverMap = naverMap
 
@@ -48,11 +46,6 @@ object Map {
         locationOverlay.icon = createIcon("M", Color.RED)
         locationOverlay.bearing = 0.0f
 
-        //live data binging
-        App.location.observeForever {
-            myLocationUpdate(LatLng(it))
-        }
-
         App.members.observeForever {
             otherLocationUpdate(it)
         }
@@ -62,7 +55,7 @@ object Map {
         }
     }
 
-    private fun myLocationUpdate(latLng: LatLng){
+    fun myLocationUpdate(latLng: LatLng){
         naverMap.locationOverlay.position = latLng
         naverMap.cameraPosition =  CameraPosition(latLng, 17.0)
     }
@@ -106,10 +99,11 @@ object Map {
 
 
     private fun addPath(latLng: LatLng){
+
         if(pathArrayList.size==0) pathArrayList.add(latLng)
         else {
             val meter = latLng.distanceTo(pathArrayList[pathArrayList.size-1])
-            if(meter>5.0f) pathArrayList.add(latLng)
+            if(meter>myInfoRepository.samplingInterval) pathArrayList.add(latLng)
         }
         if(pathArrayList.size>2){
             val pointC = pathArrayList[pathArrayList.size-1]
@@ -123,14 +117,9 @@ object Map {
             val radians = Math.acos( (distanceB*distanceB + distanceC*distanceC - distanceA*distanceA) / (2*distanceB*distanceC) )
             val degrees = radians * (180.0/Math.PI)
 
-            Log.e("result",degrees.toString())
-
-            if(degrees>176.0){
-                pathArrayList.removeAt(pathArrayList.size-2)
-            }
+            if(degrees>176.0) pathArrayList.removeAt(pathArrayList.size-2)
 
             var pathList = pathArrayList.toList()
-
             path.coords = pathList
             path.width = 64
             path.color = Color.rgb(128,255,128)

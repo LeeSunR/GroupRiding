@@ -1,18 +1,12 @@
-package kr.baka.groupriding.view
+package kr.baka.groupriding.view.activity
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -21,26 +15,22 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.OverlayImage
-import io.socket.client.IO
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
-import kr.baka.groupriding.databinding.ActivityMainBinding.inflate
-import kr.baka.groupriding.databinding.DialogAskGroupRidingStartBinding.inflate
-import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.etc.App.Companion.context
 import kr.baka.groupriding.naver.Map
+import kr.baka.groupriding.repository.LocationLiveData
 import kr.baka.groupriding.service.RidingService
+import kr.baka.groupriding.view.dialog.AskGroupRidingStartDialog
+import kr.baka.groupriding.view.dialog.AskGroupRidingStopDialog
+import kr.baka.groupriding.view.dialog.FailDialog
+import kr.baka.groupriding.view.dialog.GroupCodeShowDialog
 import kr.baka.groupriding.viewmodel.MainViewModel
-import java.net.URISyntaxException
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private var groupCreateCompletedBroadcastReceiver:GroupCreateCompletedBroadcastReceiver? = null
-    private var joinErrorBroadcastReceiver:JoinErrorBroadcastReceiver? = null
+    private var groupCreateCompletedBroadcastReceiver: GroupCreateCompletedBroadcastReceiver? = null
+    private var joinErrorBroadcastReceiver: JoinErrorBroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +78,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     }
                     R.id.menu_start_setting_activity->{
-                        val intent = Intent(this,SettingActivity::class.java)
+                        val intent = Intent(this,
+                            SettingActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -103,27 +94,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         groupCreateCompletedBroadcastReceiver = GroupCreateCompletedBroadcastReceiver()
         registerReceiver(groupCreateCompletedBroadcastReceiver, groupCreateCompletedFilter)
 
+
         val joinErrorFilter = IntentFilter()
         joinErrorFilter.addAction("joinErrorBroadcast")
         joinErrorBroadcastReceiver = JoinErrorBroadcastReceiver()
         registerReceiver(joinErrorBroadcastReceiver, joinErrorFilter)
 
+        LocationLiveData.observe(this, Observer {
+            Map.myLocationUpdate(LatLng(it))
+        })
     }
 
     override fun onMapReady(naverMap: NaverMap) {
         Map.initialization(naverMap)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val intent = Intent(this, RidingService::class.java)
-        startService(intent)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val intent = Intent(this, RidingService::class.java)
-        stopService(intent)
     }
 
     override fun onDestroy() {
@@ -141,7 +124,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     inner class JoinErrorBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val message = intent.getStringExtra("message")
-            FailDialog(context,"그룹 참가 실패","초대 코드가 유효하지 않습니다.\ncode : $message").show()
+            FailDialog(
+                context,
+                "그룹 참가 실패",
+                "초대 코드가 유효하지 않습니다.\ncode : $message"
+            ).show()
         }
     }
 }

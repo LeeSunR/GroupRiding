@@ -1,4 +1,4 @@
-package kr.baka.groupriding.view
+package kr.baka.groupriding.view.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -11,41 +11,31 @@ import androidx.databinding.DataBindingUtil
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.DialogAskGroupRidingStartBinding
 import kr.baka.groupriding.databinding.DialogAskGroupRidingStopBinding
-import kr.baka.groupriding.databinding.DialogGroupRidingJoinBinding
-import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.databinding.DialogGroupCodeShowBinding
 import kr.baka.groupriding.service.GroupRidingService
 import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.viewmodel.AskGroupRidingStartViewModel
 import kr.baka.groupriding.viewmodel.AskGroupRidingStopViewModel
-import kr.baka.groupriding.viewmodel.GroupRidingJoinViewModel
+import kr.baka.groupriding.viewmodel.GroupCodeShowViewModel
 
 
-class GroupRidingJoinDialog(context: Context) : Dialog(context) {
+class GroupCodeShowDialog(context: Context) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         setCancelable(true) //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
 
-        val binding: DialogGroupRidingJoinBinding = DataBindingUtil.inflate(
+        val binding: DialogGroupCodeShowBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_group_riding_join,
+            R.layout.dialog_group_code_show,
             null,
             false
         )
         setContentView(binding.root)
-        val viewModel = GroupRidingJoinViewModel()
+        val viewModel = GroupCodeShowViewModel()
         binding.vm = viewModel
 
         viewModel.eventCloseDialog.observeForever {
-            dismiss()
-        }
-
-        viewModel.eventJoinGroupRidingService.observeForever {
-            //TODO viewModel.inviteCode 무결성 겸사
-            val intent = Intent(context, GroupRidingService::class.java)
-            intent.putExtra("RequestCreateGroup",false)
-            App.inviteCode.value = viewModel.inviteCode.value
-            context.startService(intent)
             dismiss()
         }
     }

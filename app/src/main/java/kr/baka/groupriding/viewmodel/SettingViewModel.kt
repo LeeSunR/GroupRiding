@@ -1,41 +1,51 @@
 package kr.baka.groupriding.viewmodel
 
-import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.baka.groupriding.R
-import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.etc.SingleLiveData
+import kr.baka.groupriding.repository.SettingRepository
 
 class SettingViewModel :ViewModel(){
 
     val tag = SettingViewModel::class.java.simpleName
-    val themeName = MutableLiveData<String>()
-    val themeColor = MutableLiveData<Int>()
 
-    val startSettingActivityEvent = SingleLiveData<Any>()
+    //repository
+    private val myInfoRepository:SettingRepository by lazy { SettingRepository() }
 
-    init {
-        themeName.value = "오류"
-        App.themeColor.observeForever { getThemeName() }
+    //event
+    var eventShowNicknameChangeDialog = SingleLiveData<Any>()
+    var eventShowMaxSpeedChangeDialog = SingleLiveData<Any>()
+    var eventShowSamplingIntervalChangeDialog = SingleLiveData<Any>()
+
+    val nickname:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.nickname } }
+    val maxSpeed:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.maxSpeed.toString() } }
+    val samplingInterval:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.samplingInterval.toString() } }
+
+
+    fun nicknameChange(newNickname: String){
+        myInfoRepository.nickname = newNickname
+        nickname.value = myInfoRepository.nickname
     }
 
-
-    private fun getThemeName(){
-        val themeColorArray = App.context.resources.getIntArray(R.array.arrayThemeColor)
-        val themeNameArray = App.context.resources.getStringArray(R.array.arrayThemeName)
-        for (i in 0 until themeColorArray.size-1){
-
-
-            if (themeColorArray[i]==App.themeColor.value) {
-                themeName.value = themeNameArray[i]
-                break
-            }
-        }
+    fun maxSpeedChange(newMaxSpeed: Int){
+        myInfoRepository.maxSpeed = newMaxSpeed
+        maxSpeed.value = myInfoRepository.maxSpeed.toString()
     }
 
-    fun showThemeSelectDialog(){
-        startSettingActivityEvent.call()
+    fun samplingIntervalChange(newSamplingInterval: Int){
+        myInfoRepository.samplingInterval = newSamplingInterval
+        samplingInterval.value = myInfoRepository.samplingInterval.toString()
+    }
+
+    fun showNicknameChangeDialog(){
+        eventShowNicknameChangeDialog.call()
+    }
+
+    fun showMaxSpeedChangeDialog(){
+        eventShowMaxSpeedChangeDialog.call()
+    }
+
+    fun showSamplingIntervalChangeDialog(){
+        eventShowSamplingIntervalChangeDialog.call()
     }
 }

@@ -19,7 +19,7 @@
             android:gravity="center"
             android:textColor="#ffffff"
             android:textSize="16dp"
-            android:text="그룹 참가"
+            android:text="@string/stringDialogTitleGroupRidingJoin"
             android:background="@color/colorDefaultBackGround"/>
 
         <View
@@ -29,7 +29,7 @@
 
         <TextView
             android:layout_marginTop="20dp"
-            android:text="그룹에 참가하려면 초대 코드를 입력하세요"
+            android:text="@string/stringDialogMessageGroupRidingJoin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

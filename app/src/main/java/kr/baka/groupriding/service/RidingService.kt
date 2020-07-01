@@ -7,6 +7,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -68,7 +69,10 @@ class RidingService: Service() {
             return START_NOT_STICKY
         }
         else {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0.2f,myLocationListener)
+            val criteria = Criteria()
+            criteria.accuracy = Criteria.ACCURACY_FINE
+            val provider = locationManager.getBestProvider(criteria,true)
+            locationManager.requestLocationUpdates(provider, 0, 0.2f,myLocationListener)
         }
 
         return START_STICKY
@@ -110,17 +114,17 @@ class RidingService: Service() {
         override fun onLocationChanged(location: Location?) {
             if(location!=null){
 
-//                speed = (location.speed*3600/1000).toInt()
-//                if(previousLocation!=null && speed!!>0){
-//                    val newDistance = previousLocation!!.distanceTo(location) // m/s
-//                    distance += (newDistance*100).toInt() //cm
-//                }
-
-                if(previousLocation!=null){
+                speed = (location.speed*3600/1000).toInt()
+                if(previousLocation!=null && speed!!>0){
                     val newDistance = previousLocation!!.distanceTo(location) // m/s
-                    speed = (newDistance*3600/1000).toInt()
                     distance += (newDistance*100).toInt() //cm
                 }
+
+//                if(previousLocation!=null){
+//                    val newDistance = previousLocation!!.distanceTo(location) // m/s
+//                    speed = (newDistance*3600/1000).toInt()
+//                    distance += (newDistance*100).toInt() //cm
+//                }
 
                 if (speed>0) {
                     sumOfSpeed += speed

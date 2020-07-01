@@ -20,11 +20,11 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.SettingActivity">
+            tools:context=".view.activity.SettingActivity">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:padding="12dp"
-                app:variableBackgroundColor="@{settingVM.themeColor}"
+                android:background="@color/colorDefaultBackGround"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button
@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:textSize="20dp"
-                    android:text="설정"
+                    android:text="@string/stringSettingTopTitle"
                     android:textColor="@color/colorDefaultForeground"
                     app:layout_constraintTop_toTopOf="@+id/btn_setting_close"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_setting_close"
@@ -60,11 +60,10 @@
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"/>-->
 <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:onClick="@{()->settingVM.showNicknameChangeDialog()}"
                 android:padding="8dp"
                 android:clickable="true"
-                android:onClick="@{()->settingVM.showThemeSelectDialog()}"
                 android:background="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -77,13 +76,69 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="태마"
+                        android:text="@string/stringSettingTitleNickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:layout_marginLeft="4dp"
                         android:textSize="12sp"
-                        android:text="@{settingVM.themeName}"
+                        android:text="@{settingVM.nickname}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:onClick="@{()->settingVM.showMaxSpeedChangeDialog()}"
+                android:padding="8dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/stringSettingTitleMaxSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:textSize="12sp"
+                        android:text="@{settingVM.maxSpeed}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:onClick="@{()->settingVM.showSamplingIntervalChangeDialog()}"
+                android:padding="8dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/stringSettingTitleSamplingInterval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:textSize="12sp"
+                        android:text="@{settingVM.samplingInterval}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -102,32 +157,7 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="레이아웃 배치"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_marginLeft="4dp"
-                        android:textSize="12sp"
-                        android:text="속도, 거리, 주행시간등 레이아웃 배치를 설정합니다"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="잠금화면 위에 표시"
+                        android:text="@string/stringSettingTitleLockScreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
@@ -153,13 +183,13 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="앱 버전"
+                        android:text="@string/stringSettingTitleAppVersion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:layout_marginLeft="4dp"
                         android:textSize="12sp"
-                        android:text="0.1"
+                        android:text="@string/app_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -177,7 +207,7 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="공유하기"
+                        android:text="@string/stringSettingTitleDeveloperInfomation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -195,7 +225,7 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="평가하기"
+                        android:text="@string/stringSettingTitleOpenSourceLicense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -213,25 +243,7 @@
                     <TextView
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="오픈소스 라이센스"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="개인정보 보호정책"
+                        android:text="@string/stringSettingTitlePrivacyPolicy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>

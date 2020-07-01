@@ -1,6 +1,5 @@
 package kr.baka.groupriding.service
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -13,9 +12,9 @@ import androidx.core.app.NotificationCompat
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import kr.baka.groupriding.R
 import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.repository.SettingRepository
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -32,7 +31,6 @@ class GroupRidingService: Service() {
         return null
     }
 
-    @SuppressLint("InvalidWakeLockTag")
     override fun onCreate() {
         super.onCreate()
         Log.v(TAG,"onCreate")
@@ -54,7 +52,7 @@ class GroupRidingService: Service() {
     }
 
     private fun connect(requestCreateGroup:Boolean){
-        mSocket = IO.socket(getString(R.string.groupRidingServiceHost))
+        mSocket = IO.socket(SettingRepository().getHostAddress())
         mSocket.on(Socket.EVENT_CONNECT, ConnectListener())
         mSocket.on(Socket.EVENT_DISCONNECT, DisconnectListener())
         mSocket.on(Socket.EVENT_CONNECT_ERROR, ConnectErrorListener())

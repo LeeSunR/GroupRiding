@@ -19,7 +19,7 @@
             android:gravity="center"
             android:textColor="#ffffff"
             android:textSize="16dp"
-            android:text="그룹 라이딩을 종료하시겠습니까?"
+            android:text="@string/stringDialogTitleAskGroupRidingStop"
             android:background="@color/colorDefaultBackGround"/>
 
         <View

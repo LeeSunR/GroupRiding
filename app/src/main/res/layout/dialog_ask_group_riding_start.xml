@@ -20,7 +20,7 @@
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:textSize="16dp"
-            android:text="그룹 라이딩을 시작하시겠습니까?"
+            android:text="@string/stringDialogTitleAskGroupRidingStart"
             android:background="@color/colorDefaultBackGround"/>
 
         <View
