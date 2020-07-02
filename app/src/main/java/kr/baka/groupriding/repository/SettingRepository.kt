@@ -26,7 +26,8 @@ class SettingRepository{
 
     fun getHostAddress():String{
         val address = getIPV4()
-        return if (address == "192.168.35.10") context.getString(R.string.groupRidingServiceHostLAN)
+        val list = address!!.split(".")
+        return if (list[0]=="192" && list[1]=="168" && list[2]=="35") context.getString(R.string.groupRidingServiceHostLAN)
         else context.getString(R.string.groupRidingServiceHostWAN)
     }
 

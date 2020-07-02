@@ -47,10 +47,6 @@
         </activity>
 
         <service
-            android:name=".service.RidingService"
-            android:enabled="true" />
-
-        <service
             android:name=".service.GroupRidingService"
             android:enabled="true" />
     </application>

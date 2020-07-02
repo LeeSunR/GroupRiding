@@ -5,6 +5,7 @@
 
     <string name="stringStartGroupRiding">그룹라이딩 시작하기</string>
     <string name="stringStopGroupRiding">정지하기</string>
+    <string name="stringRecodingStart">경로 녹화</string>
     <string name="stringInvite">초대하기</string>
 
     <string name="stringMenuInvite">초대하기</string>

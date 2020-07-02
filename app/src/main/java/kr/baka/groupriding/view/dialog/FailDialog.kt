@@ -9,13 +9,7 @@ import android.view.LayoutInflater
 import android.view.Window
 import androidx.databinding.DataBindingUtil
 import kr.baka.groupriding.R
-import kr.baka.groupriding.databinding.DialogAskGroupRidingStartBinding
-import kr.baka.groupriding.databinding.DialogAskGroupRidingStopBinding
 import kr.baka.groupriding.databinding.DialogFailBinding
-import kr.baka.groupriding.service.GroupRidingService
-import kr.baka.groupriding.service.RidingService
-import kr.baka.groupriding.viewmodel.AskGroupRidingStartViewModel
-import kr.baka.groupriding.viewmodel.AskGroupRidingStopViewModel
 import kr.baka.groupriding.viewmodel.FailViewModel
 
 

@@ -9,6 +9,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import kr.baka.groupriding.etc.App
@@ -25,6 +26,7 @@ object LocationLiveData : LiveData<Location>(){
 
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
             Log.e("onStatusChanged","provider:$provider")
+            Toast.makeText(App.context,"onStatusChanged : $provider\nstatus : $status",Toast.LENGTH_SHORT).show()
         }
 
         override fun onProviderEnabled(provider: String?) {
@@ -42,11 +44,12 @@ object LocationLiveData : LiveData<Location>(){
     }
 
     public override fun onActive() {
+        Log.e("onActive","onActive")
         if (ActivityCompat.checkSelfPermission(App.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0f, listener)
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 0f, listener)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.2f, listener)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0.2f, listener)
         }
         super.onActive()
     }

@@ -4,10 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
+import android.location.LocationProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -19,11 +22,11 @@ import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
 import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.repository.LocationLiveData
-import kr.baka.groupriding.service.RidingService
 import kr.baka.groupriding.view.dialog.AskGroupRidingStartDialog
 import kr.baka.groupriding.view.dialog.AskGroupRidingStopDialog
 import kr.baka.groupriding.view.dialog.FailDialog
 import kr.baka.groupriding.view.dialog.GroupCodeShowDialog
+import kr.baka.groupriding.view.fragment.MenuFragment
 import kr.baka.groupriding.viewmodel.MainViewModel
 
 
@@ -35,6 +38,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
+
+        supportFragmentManager.beginTransaction().replace(
+            R.id.menu_fragment,
+            MenuFragment()
+        ).commit()
+
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val viewModel = MainViewModel()
         var count = 0
@@ -49,44 +58,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         mapFragment.getMapAsync(this)
 
-        //view model event
-        viewModel.startGroupRidingServiceEvent.observe(this, Observer {
-            AskGroupRidingStartDialog(this).show()
-        })
-
-        viewModel.stopGroupRidingServiceEvent.observe(this, Observer {
-            AskGroupRidingStopDialog(this).show()
-        })
-
-        viewModel.inviteCodeDialogShowEvent.observe(this, Observer {
-            GroupCodeShowDialog(this).show()
-        })
-
-        viewModel.startPopupMenuEvent.observe(this, Observer {
-            val wrapper = ContextThemeWrapper(this, R.style.PopupMenuTheme)
-            val popupMenu = PopupMenu(wrapper,it)
-            popupMenu.inflate(R.menu.menu_more_content)
-            popupMenu.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.menu_destination->{
-
-                    }
-                    R.id.menu_invite->{
-
-                    }
-                    R.id.menu_route_recoding_start->{
-
-                    }
-                    R.id.menu_start_setting_activity->{
-                        val intent = Intent(this,
-                            SettingActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
-                return@setOnMenuItemClickListener true
-            }
-            popupMenu.show()
-        })
 
         //broadcast receivers
         val groupCreateCompletedFilter = IntentFilter()
@@ -100,9 +71,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         joinErrorBroadcastReceiver = JoinErrorBroadcastReceiver()
         registerReceiver(joinErrorBroadcastReceiver, joinErrorFilter)
 
-        LocationLiveData.observe(this, Observer {
-            Map.myLocationUpdate(LatLng(it))
+        LocationLiveData.observe(this, Observer {location->
+            if(location.hasSpeed())
+                viewModel.speed.value=(location.speed*3600/1000).toInt().toString()
+            else{
+                viewModel.speed.value="??"
+            }
+
+            if(location.provider != LocationManager.GPS_PROVIDER)
+                Toast.makeText(applicationContext,"GPS 수신을 기다리는 중 입니다",Toast.LENGTH_SHORT).show()
+
+            Map.myLocationUpdate(location)
         })
+
     }
 
     override fun onMapReady(naverMap: NaverMap) {

@@ -5,6 +5,7 @@
 
     <string name="stringStartGroupRiding">Start Group Riding</string>
     <string name="stringStopGroupRiding">stop Group Riding</string>
+    <string name="stringRecodingStart">Route Recoding</string>
     <string name="stringInvite">invite</string>
 
     <string name="stringMenuInvite">invite</string>
@@ -51,4 +52,7 @@
 
     <string name="groupRidingServiceHostWAN">http://baka.kr:6060</string>
     <string name="groupRidingServiceHostLAN">http://192.168.35.235:6060</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

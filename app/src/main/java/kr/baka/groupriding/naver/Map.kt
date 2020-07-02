@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.location.Location
+import android.location.LocationManager
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.NaverMap
@@ -43,7 +45,7 @@ object Map {
         locationOverlay.bearing = 90f
 
 
-        locationOverlay.icon = createIcon("M", Color.RED)
+        locationOverlay.icon = createIcon("M", Color.GRAY)
         locationOverlay.bearing = 0.0f
 
         App.members.observeForever {
@@ -55,9 +57,13 @@ object Map {
         }
     }
 
-    fun myLocationUpdate(latLng: LatLng){
-        naverMap.locationOverlay.position = latLng
-        naverMap.cameraPosition =  CameraPosition(latLng, 17.0)
+    fun myLocationUpdate(location: Location){
+        naverMap.locationOverlay.position = LatLng(location)
+        naverMap.cameraPosition =  CameraPosition(LatLng(location), 17.0)
+        if(location.provider == LocationManager.GPS_PROVIDER)
+            naverMap.locationOverlay.icon = createIcon("M", Color.RED)
+        else
+            naverMap.locationOverlay.icon = createIcon("M", Color.GRAY)
     }
 
     private fun otherLocationUpdate(members: ArrayList<Member>){

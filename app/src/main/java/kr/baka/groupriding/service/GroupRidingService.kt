@@ -5,15 +5,18 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Observer
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.repository.LocationLiveData
 import kr.baka.groupriding.repository.SettingRepository
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,7 +27,8 @@ import kotlin.collections.ArrayList
 class GroupRidingService: Service() {
 
     private val TAG = this::class.simpleName
-    private lateinit var mSocket:Socket
+    private val mSocket:Socket by lazy { IO.socket(SettingRepository().getHostAddress()) }
+    private val locationObserver:LocationObserver = LocationObserver()
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.v(TAG,"onBind")
@@ -39,7 +43,7 @@ class GroupRidingService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Log.v(TAG,"onStartCommand")
-        //startForegroundNotification()
+        startForegroundNotification()
         val requestCreateGroup = intent!!.getBooleanExtra("RequestCreateGroup",false)
         connect(requestCreateGroup)
         return START_STICKY
@@ -52,7 +56,6 @@ class GroupRidingService: Service() {
     }
 
     private fun connect(requestCreateGroup:Boolean){
-        mSocket = IO.socket(SettingRepository().getHostAddress())
         mSocket.on(Socket.EVENT_CONNECT, ConnectListener())
         mSocket.on(Socket.EVENT_DISCONNECT, DisconnectListener())
         mSocket.on(Socket.EVENT_CONNECT_ERROR, ConnectErrorListener())
@@ -61,19 +64,14 @@ class GroupRidingService: Service() {
         mSocket.on("groupCreateCompleted", GroupCreateCompletedListener())
         mSocket.on("GroupMemberLocationReceived", GroupMemberLocationReceivedListener())
         mSocket.connect()
-
-        App.location.observeForever {
-            val json = JSONObject()
-            json.put("latitude",it.latitude)
-            json.put("longitude",it.longitude)
-            mSocket.emit("update",json)
-        }
-
         if (requestCreateGroup) mSocket.emit("create","")
         else mSocket.emit("join",App.inviteCode.value)
+
+        LocationLiveData.observeForever(locationObserver)
     }
 
     private fun disconnect(){
+        //LocationLiveData.removeObserver(locationObserver)
         App.isGroupRidingServiceRunning.postValue(false)
         mSocket.disconnect()
     }
@@ -157,6 +155,19 @@ class GroupRidingService: Service() {
                 memberArrayList.add(member)
             }
             App.members.postValue(memberArrayList)
+        }
+
+
+    }
+
+    inner class LocationObserver: Observer<Location> {
+        override fun onChanged(location: Location?) {
+            if(location!=null){
+                val json = JSONObject()
+                json.put("latitude",location.latitude)
+                json.put("longitude",location.longitude)
+                mSocket.emit("update",json)
+            }
         }
     }
 }
