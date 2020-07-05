@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.etc.SingleLiveData
+import kr.baka.groupriding.repository.ServiceStatusLiveData
 
 class MenuViewModel :ViewModel(){
 
@@ -28,10 +29,33 @@ class MenuViewModel :ViewModel(){
         inviteCodeDialogShowEvent.call()
     }
 
+    var showRouteActivityEvent = SingleLiveData<Any>()
+    fun showRouteActivity(){
+        showRouteActivityEvent.call()
+    }
+
+    var showRecordRouteDialogEvent = SingleLiveData<Any>()
+    fun showRecordRouteDialog(){
+        showRecordRouteDialogEvent.call()
+    }
+
+    var showRecordRouteStopDialogEvent = SingleLiveData<Any>()
+    fun showRecordRouteStopDialog(){
+        showRecordRouteStopDialogEvent.call()
+    }
+
     val groupRidingStartVisibility = MutableLiveData<Int>()
     val groupRidingStopVisibility = MutableLiveData<Int>()
+
+    val recordRouteStartVisibility = MutableLiveData<Int>()
+    val recordRouteStopVisibility = MutableLiveData<Int>()
+
+    init {
+        observeForever()
+    }
+
     private fun observeForever(){
-        App.isGroupRidingServiceRunning.observeForever {
+        ServiceStatusLiveData.groupingService.observeForever {
             if (it){
                 groupRidingStopVisibility.value = View.GONE
                 groupRidingStartVisibility.value = View.VISIBLE
@@ -41,10 +65,16 @@ class MenuViewModel :ViewModel(){
                 groupRidingStartVisibility.value = View.GONE
             }
         }
-    }
 
-    init {
-        observeForever()
+        ServiceStatusLiveData.recordingService.observeForever {
+            if (it){
+                recordRouteStopVisibility.value = View.GONE
+                recordRouteStartVisibility.value = View.VISIBLE
+            }
+            else {
+                recordRouteStopVisibility.value = View.VISIBLE
+                recordRouteStartVisibility.value = View.GONE
+            }
+        }
     }
-
 }

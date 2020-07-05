@@ -3,6 +3,7 @@ package kr.baka.groupriding.view.activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -22,7 +23,7 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_setting)
-
+        window.statusBarColor = getColor(R.color.colorPrimary)
         val binding = DataBindingUtil.setContentView<ActivitySettingBinding>(this, R.layout.activity_setting)
         val settingVM = SettingViewModel()
 

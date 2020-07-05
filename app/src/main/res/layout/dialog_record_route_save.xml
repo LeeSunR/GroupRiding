@@ -3,7 +3,7 @@
     <data>
         <variable
             name="vm"
-            type="kr.baka.groupriding.viewmodel.AskGroupRidingStartViewModel" />
+            type="kr.baka.groupriding.viewmodel.RecordRouteSaveViewModel" />
     </data>
 
     <LinearLayout
@@ -18,22 +18,37 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textAlignment="center"
             android:textSize="16dp"
-            android:text="@string/stringDialogTitleAskGroupRidingStart"
+            android:text="경로 녹화 완료"
             android:background="@color/colorDefaultBackGround"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#000000"/>
+
         <TextView
+            android:layout_marginTop="20dp"
+            android:text="경로 저장을 마치려면 아래 내용을 입력하세요"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="#000"
             android:textSize="16dp"
             android:background="@color/colorDefaultForeground"/>
+
+        <EditText
+            android:text="@={vm.name}"
+            android:hint="경로 이름"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="60dp"
+            android:textColor="#000"
+            android:textSize="20dp"/>
 
         <View
             android:layout_width="match_parent"
@@ -46,12 +61,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:onClick="@{()->vm.joinGroupDialogShow()}"
+                android:onClick="@{()->vm.closeDialog()}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/stringBtnJoin"
+                android:text="@string/stringBtnClose"
                 android:textColor="#000000"
                 android:textSize="16dp"
                 android:background="#ffffff"/>
@@ -62,15 +77,15 @@
                 android:background="#000000" />
 
             <Button
-                android:onClick="@{()->vm.createGroupRidingService()}"
+                android:onClick="@{()->vm.recordSave()}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/stringBtnCreate"
-                android:textColor="#000000"
+                android:text="저장"
+                android:textColor="#FFF"
                 android:textSize="16dp"
-                android:background="#ffffff"/>
+                android:background="@color/colorButtonConfirm"/>
         </LinearLayout>
 
         <View

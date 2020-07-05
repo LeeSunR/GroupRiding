@@ -3,21 +3,28 @@ package kr.baka.groupriding.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
+import com.naver.maps.geometry.LatLng
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.repository.LocationLiveData
+import kr.baka.groupriding.repository.ServiceStatusLiveData
 import kr.baka.groupriding.repository.SettingRepository
+import kr.baka.groupriding.view.dialog.RecordRouteSaveDialog
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -29,6 +36,7 @@ class GroupRidingService: Service() {
     private val TAG = this::class.simpleName
     private val mSocket:Socket by lazy { IO.socket(SettingRepository().getHostAddress()) }
     private val locationObserver:LocationObserver = LocationObserver()
+    private val disconnectedBroadcastReceiver = DisconnectedBroadcastReceiver()
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.v(TAG,"onBind")
@@ -45,13 +53,23 @@ class GroupRidingService: Service() {
         Log.v(TAG,"onStartCommand")
         startForegroundNotification()
         val requestCreateGroup = intent!!.getBooleanExtra("RequestCreateGroup",false)
+
+        val filter = IntentFilter()
+        filter.addAction("groupRidingDisconnected")
+        registerReceiver(disconnectedBroadcastReceiver, filter)
+
         connect(requestCreateGroup)
         return START_STICKY
     }
 
     override fun onDestroy() {
-        disconnect()
+        LocationLiveData.removeObserver(locationObserver)
+        ServiceStatusLiveData.groupingService.postValue(false)
+        unregisterReceiver(disconnectedBroadcastReceiver)
         Log.v(TAG,"onDestroy")
+        groupFinishBroadcast()
+        disconnect()
+        Map.clear()
         super.onDestroy()
     }
 
@@ -66,14 +84,11 @@ class GroupRidingService: Service() {
         mSocket.connect()
         if (requestCreateGroup) mSocket.emit("create","")
         else mSocket.emit("join",App.inviteCode.value)
-
         LocationLiveData.observeForever(locationObserver)
     }
 
     private fun disconnect(){
-        //LocationLiveData.removeObserver(locationObserver)
-        App.isGroupRidingServiceRunning.postValue(false)
-        mSocket.disconnect()
+        if (mSocket.connected()) mSocket.disconnect()
     }
 
     private fun startForegroundNotification(){
@@ -91,13 +106,21 @@ class GroupRidingService: Service() {
         startForeground(1, builder.build())
     }
 
+    private fun groupFinishBroadcast(){
+        val list = Map.pathArrayList
+        val intent = Intent()
+        intent.putExtra("list",list)
+        intent.action = "groupFinishBroadcast"
+        sendBroadcast(intent)
+    }
+
     //
-    // event
+    // socket event
     //
 
     inner class ConnectListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
-            App.isGroupRidingServiceRunning.postValue(true)
+            ServiceStatusLiveData.groupingService.postValue(true)
             Log.v(TAG,"connected")
         }
     }
@@ -105,7 +128,11 @@ class GroupRidingService: Service() {
     inner class DisconnectListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
             Log.v(TAG,"disconnected")
-            onDestroy()
+
+            val intent = Intent()
+            intent.action = "groupRidingDisconnected"
+            sendBroadcast(intent)
+
         }
     }
 
@@ -160,14 +187,24 @@ class GroupRidingService: Service() {
 
     }
 
+    //
+    // observer event
+    //
+
     inner class LocationObserver: Observer<Location> {
         override fun onChanged(location: Location?) {
-            if(location!=null){
+            if(location!=null && location.provider == LocationManager.GPS_PROVIDER){
                 val json = JSONObject()
                 json.put("latitude",location.latitude)
                 json.put("longitude",location.longitude)
                 mSocket.emit("update",json)
             }
+        }
+    }
+
+    inner class DisconnectedBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            onDestroy()
         }
     }
 }

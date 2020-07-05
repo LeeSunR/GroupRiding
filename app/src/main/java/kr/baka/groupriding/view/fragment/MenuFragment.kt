@@ -6,15 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.FragmentMenuBinding
-import kr.baka.groupriding.databinding.FragmentMenuBindingImpl
+import kr.baka.groupriding.repository.ServiceStatusLiveData
+import kr.baka.groupriding.view.activity.RouteActivity
 import kr.baka.groupriding.view.activity.SettingActivity
-import kr.baka.groupriding.view.dialog.AskGroupRidingStartDialog
-import kr.baka.groupriding.view.dialog.AskGroupRidingStopDialog
-import kr.baka.groupriding.view.dialog.GroupCodeShowDialog
+import kr.baka.groupriding.view.dialog.*
 import kr.baka.groupriding.viewmodel.MenuViewModel
 
 class MenuFragment : Fragment() {
@@ -31,15 +28,34 @@ class MenuFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.startGroupRidingServiceEvent.observe(this, Observer {
-            AskGroupRidingStartDialog(context!!).show()
+            if  (ServiceStatusLiveData.recordingService.value==false)
+                GroupRidingStartDialog(context!!).show()
+            else
+                FailDialog(context!!,"오류","녹화중에는 그룹라이딩 참가/생성이 불가능합니다").show()
         })
 
         viewModel.stopGroupRidingServiceEvent.observe(this, Observer {
-            AskGroupRidingStopDialog(context!!).show()
+            GroupRidingStopDialog(context!!).show()
         })
 
         viewModel.inviteCodeDialogShowEvent.observe(this, Observer {
             GroupCodeShowDialog(context!!).show()
+        })
+
+        viewModel.showRecordRouteDialogEvent.observe(this, Observer {
+            if (ServiceStatusLiveData.groupingService.value==false)
+                RecordRouteDialog(context!!).show()
+            else
+                FailDialog(context!!,"오류","그룹라이딩 실행중 경로 녹화가 불가능합니다").show()
+        })
+
+        viewModel.showRecordRouteStopDialogEvent.observe(this, Observer {
+            RecordRouteStopDialog(context!!).show()
+        })
+
+        viewModel.showRouteActivityEvent.observe(this, Observer {
+            val intent = Intent(context, RouteActivity::class.java)
+            startActivity(intent)
         })
 
         viewModel.showSettingActivityEvent.observe(this, Observer {

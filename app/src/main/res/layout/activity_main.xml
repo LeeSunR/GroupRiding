@@ -87,27 +87,50 @@
 <!--            android:layout_height="36dp">-->
 <!--        </ImageButton>-->
 
-        <FrameLayout
-            android:id="@+id/menu_fragment"
+
+<!--        app:onDrag="@{(view, dragEvent)->viewModel.fragmentOnDrag(view, dragEvent)}"-->
+
+        <ScrollView
+            android:scrollbars="none"
+            android:onTouch="@{(view, event)->viewModel.menuOnTouch(view,event)}"
+            android:onScrollChange="@{(view,x,y,ox,oy)->viewModel.menuOnScroll(view,x,y,ox,oy)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/colorDefaultForeground"
-            android:layout_marginTop="10dp"
-            android:elevation="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="82dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <ImageButton
-            android:elevation="4dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:background="@drawable/style_tgbtn_running"
-            app:layout_constraintTop_toBottomOf="@+id/menu_fragment"
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
+                <FrameLayout
+                    android:id="@+id/menu_fragment"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/colorDefaultForeground"
+                    android:elevation="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
+
+                <ImageButton
+                    android:id="@+id/menu_down_btn"
+                    android:clickable="true"
+                    android:onClick="@{()->viewModel.showMenuFragment()}"
+                    android:elevation="4dp"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:background="@drawable/style_tgbtn_running"
+                    app:layout_constraintTop_toBottomOf="@+id/menu_fragment"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tv_speed"

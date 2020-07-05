@@ -15,13 +15,14 @@ import com.naver.maps.map.overlay.PathOverlay
 import kr.baka.groupriding.R
 import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.model.Member
+import kr.baka.groupriding.repository.ServiceStatusLiveData
 import kr.baka.groupriding.repository.SettingRepository
 
 object Map {
 
     private lateinit var naverMap:NaverMap
     private val markerHashMap = HashMap<String, Marker>()
-    private val pathArrayList = ArrayList<LatLng>()
+    val pathArrayList = ArrayList<LatLng>()
     private val path = PathOverlay()
     private val myInfoRepository = SettingRepository()
 
@@ -50,10 +51,6 @@ object Map {
 
         App.members.observeForever {
             otherLocationUpdate(it)
-        }
-
-        App.isGroupRidingServiceRunning.observeForever {
-            if(!it) initData()
         }
     }
 
@@ -104,7 +101,7 @@ object Map {
     }
 
 
-    private fun addPath(latLng: LatLng){
+    fun addPath(latLng: LatLng){
 
         if(pathArrayList.size==0) pathArrayList.add(latLng)
         else {
@@ -136,7 +133,7 @@ object Map {
         }
     }
 
-    private fun initData(){
+    fun clear(){
         pathArrayList.clear()
         path.map = null
         val iterator = markerHashMap.values.iterator()

@@ -3,13 +3,13 @@
     <data>
         <variable
             name="vm"
-            type="kr.baka.groupriding.viewmodel.FailViewModel" />
+            type="kr.baka.groupriding.viewmodel.GroupRidingStartViewModel" />
     </data>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#ffffff">
 
         <TextView
@@ -20,24 +20,18 @@
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:textSize="16dp"
-            android:text="@{vm.title}"
-            android:background="@color/colorButtonDanger"/>
+            android:text="@string/stringDialogTitleAskGroupRidingStart"
+            android:background="@color/colorDefaultBackGround"/>
 
-        <ImageView
-            android:tint="@color/colorButtonDanger"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_fail_face"
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"/>
-
-        <TextView
-            android:layout_margin="20dp"
-            android:text="@{vm.message}"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#000"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
             android:textSize="16dp"
             android:background="@color/colorDefaultForeground"/>
 
@@ -52,12 +46,28 @@
             android:orientation="horizontal">
 
             <Button
-                android:onClick="@{()->vm.closeDialog()}"
+                android:onClick="@{()->vm.joinGroupDialogShow()}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/stringBtnClose"
+                android:text="@string/stringBtnJoin"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:background="#ffffff"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
+            <Button
+                android:onClick="@{()->vm.createGroupRidingService()}"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/stringBtnCreate"
                 android:textColor="#000000"
                 android:textSize="16dp"
                 android:background="#ffffff"/>

@@ -3,13 +3,13 @@
     <data>
         <variable
             name="vm"
-            type="kr.baka.groupriding.viewmodel.FailViewModel" />
+            type="kr.baka.groupriding.viewmodel.GroupRidingStopViewModel" />
     </data>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#ffffff">
 
         <TextView
@@ -18,28 +18,9 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textAlignment="center"
             android:textSize="16dp"
-            android:text="@{vm.title}"
-            android:background="@color/colorButtonDanger"/>
-
-        <ImageView
-            android:tint="@color/colorButtonDanger"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_fail_face"
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"/>
-
-        <TextView
-            android:layout_margin="20dp"
-            android:text="@{vm.message}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#000"
-            android:textSize="16dp"
-            android:background="@color/colorDefaultForeground"/>
+            android:text="@string/stringDialogTitleAskGroupRidingStop"
+            android:background="@color/colorDefaultBackGround"/>
 
         <View
             android:layout_width="match_parent"
@@ -57,10 +38,26 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/stringBtnClose"
+                android:text="@string/stringBtnNo"
                 android:textColor="#000000"
                 android:textSize="16dp"
                 android:background="#ffffff"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
+            <Button
+                android:onClick="@{()->vm.stopGroupRidingService()}"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/stringBtnYes"
+                android:textColor="#FFF"
+                android:textSize="16dp"
+                android:background="@color/colorButtonDanger"/>
         </LinearLayout>
 
         <View

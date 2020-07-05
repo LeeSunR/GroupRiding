@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".view.activity.RouteActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="kr.baka.groupriding.viewmodel.RouteViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="12dp"
+            android:background="@color/colorDefaultBackGround"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_setting_close"
+                android:backgroundTint="@color/colorDefaultForeground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/ic_arrow_back_black_24dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"/>
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="경로 설정"
+                android:textColor="@color/colorDefaultForeground"
+                app:layout_constraintTop_toTopOf="@+id/btn_setting_close"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_setting_close"
+                app:layout_constraintLeft_toRightOf="@+id/btn_setting_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/routeRecyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_route"
+            app:layoutManager="LinearLayoutManager"/>
+
+    </LinearLayout>
+</layout>

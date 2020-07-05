@@ -9,40 +9,41 @@ import android.location.LocationProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.MotionEvent
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.DragStartHelper
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import kotlinx.android.synthetic.main.activity_main.*
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivityMainBinding
 import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.repository.LocationLiveData
-import kr.baka.groupriding.view.dialog.AskGroupRidingStartDialog
-import kr.baka.groupriding.view.dialog.AskGroupRidingStopDialog
-import kr.baka.groupriding.view.dialog.FailDialog
-import kr.baka.groupriding.view.dialog.GroupCodeShowDialog
+import kr.baka.groupriding.view.dialog.*
 import kr.baka.groupriding.view.fragment.MenuFragment
 import kr.baka.groupriding.viewmodel.MainViewModel
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private var groupCreateCompletedBroadcastReceiver: GroupCreateCompletedBroadcastReceiver? = null
-    private var joinErrorBroadcastReceiver: JoinErrorBroadcastReceiver? = null
+    private val groupCreateCompletedBroadcastReceiver = GroupCreateCompletedBroadcastReceiver()
+    private val joinErrorBroadcastReceiver = JoinErrorBroadcastReceiver()
+    private val recordFinishBroadcastReceiver = RecordFinishBroadcastReceiver()
+    private val groupFinishBroadcastReceiver = GroupFinishBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction().replace(
-            R.id.menu_fragment,
-            MenuFragment()
-        ).commit()
+
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val viewModel = MainViewModel()
@@ -51,25 +52,34 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
 
         //NAVER MAP FRAGMENT INIT
-        val fm = supportFragmentManager
-        val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as MapFragment?
             ?: MapFragment.newInstance().also {
-                fm.beginTransaction().add(R.id.map, it).commit()
+                supportFragmentManager.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
 
+        //fragment show
+        supportFragmentManager.beginTransaction().add(R.id.menu_fragment, MenuFragment()).commit()
 
         //broadcast receivers
         val groupCreateCompletedFilter = IntentFilter()
         groupCreateCompletedFilter.addAction("GroupCreateCompletedBroadcast")
-        groupCreateCompletedBroadcastReceiver = GroupCreateCompletedBroadcastReceiver()
         registerReceiver(groupCreateCompletedBroadcastReceiver, groupCreateCompletedFilter)
 
 
         val joinErrorFilter = IntentFilter()
         joinErrorFilter.addAction("joinErrorBroadcast")
-        joinErrorBroadcastReceiver = JoinErrorBroadcastReceiver()
         registerReceiver(joinErrorBroadcastReceiver, joinErrorFilter)
+
+
+        val recordFinishFilter = IntentFilter()
+        recordFinishFilter.addAction("recordFinishBroadcast")
+        registerReceiver(recordFinishBroadcastReceiver, recordFinishFilter)
+
+        val groupFinishFilter = IntentFilter()
+        groupFinishFilter.addAction("groupFinishBroadcast")
+        registerReceiver(groupFinishBroadcastReceiver, groupFinishFilter)
+
 
         LocationLiveData.observe(this, Observer {location->
             if(location.hasSpeed())
@@ -94,6 +104,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onDestroy()
         unregisterReceiver(groupCreateCompletedBroadcastReceiver)
         unregisterReceiver(joinErrorBroadcastReceiver)
+        unregisterReceiver(recordFinishBroadcastReceiver)
+        unregisterReceiver(groupFinishBroadcastReceiver)
     }
 
     inner class GroupCreateCompletedBroadcastReceiver : BroadcastReceiver() {
@@ -110,6 +122,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 "그룹 참가 실패",
                 "초대 코드가 유효하지 않습니다.\ncode : $message"
             ).show()
+        }
+    }
+
+    inner class RecordFinishBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val list = intent.getParcelableArrayListExtra<LatLng>("list")
+            RecordRouteSaveDialog(context,list).show()
+        }
+    }
+
+    inner class GroupFinishBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val list = intent.getParcelableArrayListExtra<LatLng>("list")
+            GroupRidingFinishDialog(context,list).show()
         }
     }
 }
