@@ -16,4 +16,7 @@ interface RouteDao{
 
     @Query("SELECT MAX(rid) FROM route")
     fun getLastRoute(): Int
+
+    @Query("DELETE FROM route WHERE rid = :rid")
+    fun delete(rid: Int)
 }

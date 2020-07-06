@@ -20,7 +20,7 @@ import kr.baka.groupriding.repository.SettingRepository
 
 object Map {
 
-    private lateinit var naverMap:NaverMap
+    private var naverMap:NaverMap? = null
     private val markerHashMap = HashMap<String, Marker>()
     val pathArrayList = ArrayList<LatLng>()
     private val path = PathOverlay()
@@ -55,12 +55,14 @@ object Map {
     }
 
     fun myLocationUpdate(location: Location){
-        naverMap.locationOverlay.position = LatLng(location)
-        naverMap.cameraPosition =  CameraPosition(LatLng(location), 17.0)
-        if(location.provider == LocationManager.GPS_PROVIDER)
-            naverMap.locationOverlay.icon = createIcon("M", Color.RED)
-        else
-            naverMap.locationOverlay.icon = createIcon("M", Color.GRAY)
+        if(naverMap!=null){
+            naverMap!!.locationOverlay.position = LatLng(location)
+            naverMap!!.cameraPosition =  CameraPosition(LatLng(location), 17.0)
+            if(location.provider == LocationManager.GPS_PROVIDER)
+                naverMap!!.locationOverlay.icon = createIcon("M", Color.RED)
+            else
+                naverMap!!.locationOverlay.icon = createIcon("M", Color.GRAY)
+        }
     }
 
     private fun otherLocationUpdate(members: ArrayList<Member>){

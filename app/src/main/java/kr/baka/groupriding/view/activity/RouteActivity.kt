@@ -10,7 +10,10 @@ import kotlinx.android.synthetic.main.activity_route.*
 import kr.baka.groupriding.R
 import kr.baka.groupriding.adapter.RouteAdapter
 import kr.baka.groupriding.databinding.ActivityRouteBinding
+import kr.baka.groupriding.etc.App.Companion.context
 import kr.baka.groupriding.repository.RouteRepository
+import kr.baka.groupriding.view.dialog.RecordRouteSetDialog
+import kr.baka.groupriding.viewmodel.RecordRouteSetViewModel
 import kr.baka.groupriding.viewmodel.RouteViewModel
 
 class RouteActivity : AppCompatActivity() {
@@ -24,16 +27,20 @@ class RouteActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        val adapter = RouteAdapter({ route ->}, { route -> })
+        val adapter = RouteAdapter({
+                route ->
+                RecordRouteSetDialog(this,route).show()
+        }, {
+                route ->
+                RouteRepository(this).delete(route)
+        })
 
         val lm = LinearLayoutManager(this)
         routeRecyclerView.adapter = adapter
         routeRecyclerView.layoutManager = lm
         routeRecyclerView.setHasFixedSize(true)
 
-        val list = RouteRepository(this).allRoute
-
-        list.observe(this, Observer {
+        RouteRepository(this).getAllRoute().observe(this, Observer {
             Log.e("dd",it.size.toString())
             for (i in it.indices){
                 Log.e( it[i].rid.toString(), it[i].name)

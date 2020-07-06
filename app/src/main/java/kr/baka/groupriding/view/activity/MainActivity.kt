@@ -5,14 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
-import android.location.LocationProvider
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextThemeWrapper
-import android.view.MotionEvent
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.DragStartHelper
@@ -52,11 +45,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
 
         //NAVER MAP FRAGMENT INIT
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as MapFragment?
             ?: MapFragment.newInstance().also {
                 supportFragmentManager.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
+
+
 
         //fragment show
         supportFragmentManager.beginTransaction().add(R.id.menu_fragment, MenuFragment()).commit()
