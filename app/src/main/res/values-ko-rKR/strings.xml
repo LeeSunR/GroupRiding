@@ -6,10 +6,12 @@
     <string name="stringStartGroupRiding">그룹라이딩</string>
     <string name="stringStopGroupRiding">정지하기</string>
     <string name="stringRecodingStart">경로 녹화</string>
+    <string name="stringRecodingStop">녹화 종료</string>
     <string name="stringInvite">초대하기</string>
 
     <string name="stringMenuInvite">초대하기</string>
-    <string name="stringMenuDestination">경로 설정</string>
+    <string name="stringMenuDestinationSet">경로 설정</string>
+    <string name="stringMenuDestinationClear">경로 해제</string>
     <string name="stringMenuRouteRecodingStart">경로 녹화</string>
     <string name="stringMenuSetting">설정</string>
 
@@ -20,6 +22,7 @@
     <string name="stringBtnOk">확인</string>
     <string name="stringBtnYes">네</string>
     <string name="stringBtnNo">아니요</string>
+    <string name="stringBtnSave">저장</string>
 
     <string name="string">Start Group Riding</string>
     <string name="stringInfoSpeed">Speed</string>
@@ -49,6 +52,13 @@
     <string name="stringThemeDark">다크</string>
     <string name="stringThemeBlue">청록색</string>
     <string name="stringThemeOrange">오랜지</string>
+
+    <string name="serviceMessageGroupRecording">경로 녹화중입니다</string>
+    <string name="serviceMessageGroupRidingStart">그룹라이딩 서비스가 실행 중 입니다</string>
+    <string name="toastMessageGPSreception">GPS 수신을 기다리는 중 입니다</string>
+
+    <string name="failDialogTitle_groupJoinFail">그룹 참가 실패</string>
+    <string name="failDialogMessage_groupJoinFail">"초대 코드가 유효하지 않습니다"</string>
 
     <string name="groupRidingServiceHostWAN">http://baka.kr:6060</string>
     <string name="groupRidingServiceHostLAN">http://192.168.35.235:6060</string>

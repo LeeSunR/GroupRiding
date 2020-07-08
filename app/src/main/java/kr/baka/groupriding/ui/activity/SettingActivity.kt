@@ -1,9 +1,7 @@
-package kr.baka.groupriding.view.activity
+package kr.baka.groupriding.ui.activity
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -13,8 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.ActivitySettingBinding
-import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.viewmodel.MainViewModel
 import kr.baka.groupriding.viewmodel.SettingViewModel
 import java.lang.Exception
 

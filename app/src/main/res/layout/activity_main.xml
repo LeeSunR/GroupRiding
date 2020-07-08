@@ -15,7 +15,7 @@
         android:background="#000"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.MainActivity">
+        tools:context=".ui.activity.MainActivity">
 
         <fragment
             android:id="@+id/map"
@@ -119,7 +119,6 @@
                 <ImageButton
                     android:id="@+id/menu_down_btn"
                     android:clickable="true"
-                    android:onClick="@{()->viewModel.showMenuFragment()}"
                     android:elevation="4dp"
                     android:layout_marginVertical="10dp"
                     app:layout_constraintRight_toRightOf="parent"

@@ -12,7 +12,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import kr.baka.groupriding.etc.App
+import kr.baka.groupriding.etc.ViewModelFactory
+import kr.baka.groupriding.viewmodel.MainViewModel
 
 object LocationLiveData : LiveData<Location>(){
     private val locationManager by lazy { App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager }

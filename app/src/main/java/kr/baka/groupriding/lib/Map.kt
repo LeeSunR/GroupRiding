@@ -1,4 +1,4 @@
-package kr.baka.groupriding.naver
+package kr.baka.groupriding.lib
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,18 +13,16 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import kr.baka.groupriding.R
-import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.model.Member
-import kr.baka.groupriding.repository.ServiceStatusLiveData
 import kr.baka.groupriding.repository.SettingRepository
 
 object Map {
 
     private var naverMap:NaverMap? = null
     private val markerHashMap = HashMap<String, Marker>()
-    val pathArrayList = ArrayList<LatLng>()
+    private val pathArrayList = ArrayList<LatLng>()
     private val path = PathOverlay()
-    private val myInfoRepository = SettingRepository()
+    private val route = PathOverlay()
 
     fun initialization(naverMap: NaverMap){
         this.naverMap = naverMap
@@ -49,9 +47,7 @@ object Map {
         locationOverlay.icon = createIcon("M", Color.GRAY)
         locationOverlay.bearing = 0.0f
 
-        App.members.observeForever {
-            otherLocationUpdate(it)
-        }
+
     }
 
     fun myLocationUpdate(location: Location){
@@ -65,7 +61,7 @@ object Map {
         }
     }
 
-    private fun otherLocationUpdate(members: ArrayList<Member>){
+    fun otherLocationUpdate(members: ArrayList<Member>){
         val keys = ArrayList<String>()
         val iterator = markerHashMap.keys.iterator()
         while (iterator.hasNext()) {
@@ -104,11 +100,10 @@ object Map {
 
 
     fun addPath(latLng: LatLng){
-
         if(pathArrayList.size==0) pathArrayList.add(latLng)
         else {
             val meter = latLng.distanceTo(pathArrayList[pathArrayList.size-1])
-            if(meter>myInfoRepository.samplingInterval) pathArrayList.add(latLng)
+            if(meter>SettingRepository.samplingInterval) pathArrayList.add(latLng)
         }
         if(pathArrayList.size>2){
             val pointC = pathArrayList[pathArrayList.size-1]
@@ -135,6 +130,10 @@ object Map {
         }
     }
 
+    fun getPath(): ArrayList<LatLng> {
+        return this.pathArrayList
+    }
+
     fun clear(){
         pathArrayList.clear()
         path.map = null
@@ -158,5 +157,20 @@ object Map {
         canvas.rotate(90.0f,0f,0f)
 
         return OverlayImage.fromBitmap(bitmap)
+    }
+
+    fun setRoute(arrayList: ArrayList<LatLng>?){
+        if(arrayList==null)
+            route.map = null
+        else {
+            var pathList = arrayList.toList()
+            route.coords = pathList
+            route.width = 64
+            route.color = Color.rgb(128,128,255)
+            route.outlineWidth = 1
+            route.patternImage = OverlayImage.fromResource(R.drawable.ic_arrow_up_blue)
+            route.patternInterval = 128
+            route.map = naverMap
+        }
     }
 }

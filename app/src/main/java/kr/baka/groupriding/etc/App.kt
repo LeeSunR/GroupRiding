@@ -6,6 +6,8 @@ import android.database.Observable
 import android.location.Location
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import kr.baka.groupriding.R
 import kr.baka.groupriding.model.Member
 import java.net.Inet4Address
@@ -14,27 +16,23 @@ import java.net.NetworkInterface
 import java.util.*
 import kotlin.collections.ArrayList
 
-class App:Application(){
+class App:Application(), ViewModelStoreOwner {
 
     companion object{
         lateinit var context: Context
-        lateinit var sharedPreferences : MySharedPreferences
-
-        //service flag
-
-        //service flag
-        var inviteCode = MutableLiveData<String>()
-
         //members
-        var members = MutableLiveData<ArrayList<Member>>()
-
     }
 
 
     override fun onCreate() {
         context = applicationContext
-        sharedPreferences = MySharedPreferences(context)
         super.onCreate()
+    }
+    private val appViewModelStore: ViewModelStore by lazy {
+        ViewModelStore()
+    }
+    override fun getViewModelStore(): ViewModelStore {
+        return appViewModelStore
     }
 
 }

@@ -14,17 +14,19 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
-import com.naver.maps.geometry.LatLng
+import androidx.lifecycle.ViewModelProvider
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kr.baka.groupriding.R
 import kr.baka.groupriding.model.Member
 import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.naver.Map
+import kr.baka.groupriding.etc.ViewModelFactory
+import kr.baka.groupriding.lib.Map
 import kr.baka.groupriding.repository.LocationLiveData
 import kr.baka.groupriding.repository.ServiceStatusLiveData
 import kr.baka.groupriding.repository.SettingRepository
-import kr.baka.groupriding.view.dialog.RecordRouteSaveDialog
+import kr.baka.groupriding.viewmodel.MainViewModel
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -34,9 +36,10 @@ import kotlin.collections.ArrayList
 class GroupRidingService: Service() {
 
     private val TAG = this::class.simpleName
-    private val mSocket:Socket by lazy { IO.socket(SettingRepository().getHostAddress()) }
+    private val mSocket:Socket by lazy { IO.socket(SettingRepository.getHostAddress()) }
     private val locationObserver:LocationObserver = LocationObserver()
     private val disconnectedBroadcastReceiver = DisconnectedBroadcastReceiver()
+    private val mainViewModel =  ViewModelProvider(App(), ViewModelFactory()).get(MainViewModel::class.java)
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.v(TAG,"onBind")
@@ -83,7 +86,7 @@ class GroupRidingService: Service() {
         mSocket.on("GroupMemberLocationReceived", GroupMemberLocationReceivedListener())
         mSocket.connect()
         if (requestCreateGroup) mSocket.emit("create","")
-        else mSocket.emit("join",App.inviteCode.value)
+        else mSocket.emit("join",SettingRepository.inviteCode.value)
         LocationLiveData.observeForever(locationObserver)
     }
 
@@ -102,12 +105,12 @@ class GroupRidingService: Service() {
             }
 
         builder.setSmallIcon(android.R.drawable.stat_notify_sync_noanim)
-        builder.setContentText("그룹라이딩 서비스가 실행중입니다")
+        builder.setContentText(getString(R.string.serviceMessageGroupRidingStart))
         startForeground(1, builder.build())
     }
 
     private fun groupFinishBroadcast(){
-        val list = Map.pathArrayList
+        val list = Map.getPath()
         val intent = Intent()
         intent.putExtra("list",list)
         intent.action = "groupFinishBroadcast"
@@ -158,7 +161,7 @@ class GroupRidingService: Service() {
     inner class GroupCreateCompletedListener : Emitter.Listener{
         override fun call(vararg args: Any?) {
             Log.e(TAG,"group created "+ args[0].toString())
-            App.inviteCode.postValue(args[0].toString())
+            SettingRepository.inviteCode.postValue(args[0].toString())
 
             val intent = Intent()
             intent.action = "GroupCreateCompletedBroadcast"
@@ -181,7 +184,7 @@ class GroupRidingService: Service() {
                 member.id = jsonArray.getJSONObject(i).getString("id")
                 memberArrayList.add(member)
             }
-            App.members.postValue(memberArrayList)
+            mainViewModel.members.postValue(memberArrayList)
         }
 
 

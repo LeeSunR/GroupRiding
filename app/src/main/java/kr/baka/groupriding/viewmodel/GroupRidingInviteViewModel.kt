@@ -5,16 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.etc.SingleLiveData
+import kr.baka.groupriding.repository.SettingRepository
 
-class GroupCodeShowViewModel : ViewModel(){
+class GroupRidingInviteViewModel : ViewModel(){
     var eventCloseDialog = SingleLiveData<Any>()
-    var inviteCode = MutableLiveData<String>()
+    val inviteCode:MutableLiveData<String> by lazy { SettingRepository.inviteCode }
 
-    init {
-        App.inviteCode.observeForever {
-            inviteCode.value = it
-        }
-    }
 
     fun closeDialog(){
         eventCloseDialog.call()

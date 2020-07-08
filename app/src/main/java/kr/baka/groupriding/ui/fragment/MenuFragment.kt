@@ -1,17 +1,17 @@
-package kr.baka.groupriding.view.fragment
+package kr.baka.groupriding.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kr.baka.groupriding.databinding.FragmentMenuBinding
 import kr.baka.groupriding.repository.ServiceStatusLiveData
-import kr.baka.groupriding.view.activity.RouteActivity
-import kr.baka.groupriding.view.activity.SettingActivity
-import kr.baka.groupriding.view.dialog.*
+import kr.baka.groupriding.ui.activity.RouteActivity
+import kr.baka.groupriding.ui.activity.SettingActivity
+import kr.baka.groupriding.ui.dialog.*
 import kr.baka.groupriding.viewmodel.MenuViewModel
 
 class MenuFragment : Fragment() {
@@ -39,7 +39,7 @@ class MenuFragment : Fragment() {
         })
 
         viewModel.inviteCodeDialogShowEvent.observe(this, Observer {
-            GroupCodeShowDialog(context!!).show()
+            GroupRidingInviteDialog(context!!).show()
         })
 
         viewModel.showRecordRouteDialogEvent.observe(this, Observer {
@@ -66,4 +66,9 @@ class MenuFragment : Fragment() {
         return binding.root
     }
 
+    companion object{
+        fun newInstance():MenuFragment {
+            return MenuFragment()
+        }
+    }
 }

@@ -23,14 +23,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.RouteActivity"></activity>
+        <activity android:name=".ui.activity.RouteActivity"></activity>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="8sf956paiz" />
 
-        <activity android:name=".view.activity.SettingActivity"></activity>
-        <activity android:name=".view.activity.MainActivity">
+        <activity android:name=".ui.activity.SettingActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

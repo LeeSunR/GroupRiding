@@ -3,7 +3,7 @@
     <data>
         <variable
             name="vm"
-            type="kr.baka.groupriding.viewmodel.GroupCodeShowViewModel" />
+            type="kr.baka.groupriding.viewmodel.GroupRidingInviteViewModel" />
     </data>
 
     <LinearLayout

@@ -16,11 +16,6 @@ import androidx.lifecycle.MutableLiveData
 import kr.baka.groupriding.etc.App
 
 object ServiceStatusLiveData{
-    val groupingService = MutableLiveData<Boolean>()
-    val recordingService = MutableLiveData<Boolean>()
-
-    init {
-        groupingService.value = false
-        recordingService.value = false
-    }
+    val groupingService:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>().also { it.value=false } }
+    val recordingService:MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>().also { it.value=false } }
 }

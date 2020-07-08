@@ -27,14 +27,6 @@
             android:layout_height="1dp"
             android:background="#000000"/>
 
-        <ImageView
-            android:tint="@color/colorButtonConfirm"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_finish"
-            android:layout_width="match_parent"
-            android:layout_height="128dp"/>
-
         <TextView
             android:layout_marginTop="20dp"
             android:text="그룹라이딩이 종료되었습니다.\n경로를 저장하려면 [저장] 버튼을 클릭하세요"
@@ -90,7 +82,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="저장"
+                android:text="save"
                 android:textColor="#FFF"
                 android:textSize="16dp"
                 android:background="@color/colorButtonConfirm"/>

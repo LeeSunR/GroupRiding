@@ -9,32 +9,29 @@ class SettingViewModel :ViewModel(){
 
     val tag = SettingViewModel::class.java.simpleName
 
-    //repository
-    private val myInfoRepository:SettingRepository by lazy { SettingRepository() }
-
     //event
     var eventShowNicknameChangeDialog = SingleLiveData<Any>()
     var eventShowMaxSpeedChangeDialog = SingleLiveData<Any>()
     var eventShowSamplingIntervalChangeDialog = SingleLiveData<Any>()
 
-    val nickname:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.nickname } }
-    val maxSpeed:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.maxSpeed.toString() } }
-    val samplingInterval:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=myInfoRepository.samplingInterval.toString() } }
+    val nickname:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=SettingRepository.nickname } }
+    val maxSpeed:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=SettingRepository.maxSpeed.toString() } }
+    val samplingInterval:MutableLiveData<String> by lazy { MutableLiveData<String>().also { it.value=SettingRepository.samplingInterval.toString() } }
 
 
     fun nicknameChange(newNickname: String){
-        myInfoRepository.nickname = newNickname
-        nickname.value = myInfoRepository.nickname
+        SettingRepository.nickname = newNickname
+        nickname.value = SettingRepository.nickname
     }
 
     fun maxSpeedChange(newMaxSpeed: Int){
-        myInfoRepository.maxSpeed = newMaxSpeed
-        maxSpeed.value = myInfoRepository.maxSpeed.toString()
+        SettingRepository.maxSpeed = newMaxSpeed
+        maxSpeed.value = SettingRepository.maxSpeed.toString()
     }
 
     fun samplingIntervalChange(newSamplingInterval: Int){
-        myInfoRepository.samplingInterval = newSamplingInterval
-        samplingInterval.value = myInfoRepository.samplingInterval.toString()
+        SettingRepository.samplingInterval = newSamplingInterval
+        samplingInterval.value = SettingRepository.samplingInterval.toString()
     }
 
     fun showNicknameChangeDialog(){

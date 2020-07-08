@@ -13,19 +13,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import com.naver.maps.geometry.LatLng
-import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.naver.Map
+import kr.baka.groupriding.R
+import kr.baka.groupriding.lib.Map
 import kr.baka.groupriding.repository.LocationLiveData
-import kr.baka.groupriding.repository.RouteRepository
 import kr.baka.groupriding.repository.ServiceStatusLiveData
-import kr.baka.groupriding.repository.SettingRepository
-import kr.baka.groupriding.repository.room.entity.RouteEntity
-import kr.baka.groupriding.repository.room.entity.RouteSubEntity
-import kr.baka.groupriding.view.dialog.GroupCodeShowDialog
-import org.json.JSONArray
-import org.json.JSONObject
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class RecordRouteService: Service() {
@@ -72,12 +63,12 @@ class RecordRouteService: Service() {
             }
 
         builder.setSmallIcon(android.R.drawable.stat_notify_sync_noanim)
-        builder.setContentText("경로 녹화중입니다")
+        builder.setContentText(getString(R.string.serviceMessageGroupRecording))
         startForeground(1, builder.build())
     }
 
     private fun sendRecordFinish(){
-        val list = Map.pathArrayList
+        val list = Map.getPath()
         val intent = Intent()
         intent.putExtra("list",list)
         intent.action = "recordFinishBroadcast"

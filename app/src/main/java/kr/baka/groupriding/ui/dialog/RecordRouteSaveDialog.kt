@@ -1,8 +1,7 @@
-package kr.baka.groupriding.view.dialog
+package kr.baka.groupriding.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Window
@@ -11,13 +10,9 @@ import com.naver.maps.geometry.LatLng
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.DialogGroupRidingJoinBinding
 import kr.baka.groupriding.databinding.DialogRecordRouteSaveBinding
-import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.repository.RouteRepository
-import kr.baka.groupriding.repository.room.AppDatabase
 import kr.baka.groupriding.repository.room.entity.RouteEntity
 import kr.baka.groupriding.repository.room.entity.RouteSubEntity
-import kr.baka.groupriding.service.GroupRidingService
-import kr.baka.groupriding.viewmodel.GroupRidingJoinViewModel
 import kr.baka.groupriding.viewmodel.RecordRouteSaveViewModel
 import java.util.*
 import kotlin.collections.ArrayList

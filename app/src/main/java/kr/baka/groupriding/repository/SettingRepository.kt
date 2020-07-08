@@ -1,15 +1,17 @@
 package kr.baka.groupriding.repository
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import kr.baka.groupriding.R
 import kr.baka.groupriding.etc.App
-import kr.baka.groupriding.etc.MySharedPreferences
+import kr.baka.groupriding.repository.storage.MySharedPreferences
 import java.net.Inet4Address
 import java.net.NetworkInterface
 
-class SettingRepository{
+object SettingRepository{
     private val context = App.context
-    private val sharedPreferences = MySharedPreferences(App.context)
+    private val sharedPreferences =
+        MySharedPreferences(App.context)
 
     var nickname: String?
         get() = sharedPreferences.nickname
@@ -23,6 +25,7 @@ class SettingRepository{
         get() = sharedPreferences.samplingInterval
         set(value) {sharedPreferences.samplingInterval = value}
 
+    val inviteCode = MutableLiveData<String>()
 
     fun getHostAddress():String{
         val address = getIPV4()

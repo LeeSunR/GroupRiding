@@ -20,7 +20,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.activity.SettingActivity">
+            tools:context=".ui.activity.SettingActivity">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:padding="12dp"

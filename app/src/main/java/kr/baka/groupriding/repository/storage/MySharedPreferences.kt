@@ -1,11 +1,8 @@
-package kr.baka.groupriding.etc
+package kr.baka.groupriding.repository.storage
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.core.content.ContextCompat
-import kr.baka.groupriding.R
-import kr.baka.groupriding.etc.App.Companion.context
 
 class MySharedPreferences(context: Context){
     companion object{
@@ -14,7 +11,8 @@ class MySharedPreferences(context: Context){
         private const val KEY_NICKNAME = "key_nickname"
         private const val KEY_SAMPLING_INTERVAL = "key_Sampling_Interval"
     }
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+        PREFS_FILENAME, MODE_PRIVATE)
 
     var maxSpeed: Int
         get() = sharedPreferences.getInt(KEY_MAX_SPEED, 40)

@@ -5,28 +5,8 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.DragEvent
 import android.view.View
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.adapters.ListenerUtil
-import androidx.databinding.adapters.ViewBindingAdapter
-import kr.baka.groupriding.R
-import kr.baka.groupriding.model.Information.Companion.SIZE_MAIN_FLOAT
-import kr.baka.groupriding.model.Information.Companion.SIZE_SUB_FLOAT
-import kr.baka.groupriding.model.Information.Companion.SIZE_SUB_TIME
-
 object BindingAdapter{
-    @BindingAdapter("variableTextSize")
-    @JvmStatic
-    fun setVariableTextSize(view: TextView, type: Int) {
-        when(type){
-            SIZE_MAIN_FLOAT->
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 100f)
-            SIZE_SUB_FLOAT->
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 56f)
-            SIZE_SUB_TIME->
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
-        }
-    }
 
     @BindingAdapter("variableBackgroundColor")
     @JvmStatic

@@ -1,4 +1,4 @@
-package kr.baka.groupriding.view.dialog
+package kr.baka.groupriding.ui.dialog
 
 import android.app.Dialog
 import android.content.Context

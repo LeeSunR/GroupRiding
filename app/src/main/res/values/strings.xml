@@ -6,10 +6,12 @@
     <string name="stringStartGroupRiding">Start Group Riding</string>
     <string name="stringStopGroupRiding">stop Group Riding</string>
     <string name="stringRecodingStart">Route Recoding</string>
+    <string name="stringRecodingStop">Recoding Stop</string>
     <string name="stringInvite">invite</string>
 
     <string name="stringMenuInvite">invite</string>
-    <string name="stringMenuDestination">destination</string>
+    <string name="stringMenuDestinationSet">경로 설정</string>
+    <string name="stringMenuDestinationClear">경로 해제</string>
     <string name="stringMenuRouteRecodingStart">Route Recoding</string>
     <string name="stringMenuSetting">setting</string>
 
@@ -20,6 +22,7 @@
     <string name="stringBtnOk">Ok</string>
     <string name="stringBtnYes">Yes</string>
     <string name="stringBtnNo">No</string>
+    <string name="stringBtnSave">Save</string>
 
     <string name="string">Start Group Riding</string>
     <string name="stringInfoSpeed">Speed</string>

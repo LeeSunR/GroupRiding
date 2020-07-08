@@ -1,31 +1,23 @@
-package kr.baka.groupriding.view.dialog
+package kr.baka.groupriding.ui.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.Window
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.DialogRecordRouteSetBinding
-import kr.baka.groupriding.naver.Map
 import kr.baka.groupriding.repository.room.AppDatabase
 import kr.baka.groupriding.repository.room.entity.RouteEntity
 import kr.baka.groupriding.repository.room.entity.RouteSubEntity
-import kr.baka.groupriding.service.RecordRouteService
 import kr.baka.groupriding.viewmodel.RecordRouteSetViewModel
 
 class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity) : Dialog(context),OnMapReadyCallback  {
@@ -33,6 +25,8 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
     private val routeObserver = RouteObserver()
     private lateinit var mapView: MapView
     lateinit var naverMap: NaverMap
+    var arrayListLatLng:ArrayList<LatLng>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
@@ -53,6 +47,7 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
         mapView.getMapAsync(this)
 
         viewModel.eventCloseDialog.observeForever {
+            arrayListLatLng = null
             dismiss()
         }
 
@@ -84,11 +79,9 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
             var maxLat:Double = 0.0
             var minLng:Double = 360.0
             var maxLng:Double = 0.0
-            val arrayListLatLng = ArrayList<LatLng>()
+            arrayListLatLng = ArrayList<LatLng>()
             for (i in it.indices){
-                Log.e("dd",it[i].latitude.toString()+" / "+it[i].longitude.toString())
-                arrayListLatLng.add(LatLng(it[i].latitude,it[i].longitude))
-
+                arrayListLatLng!!.add(LatLng(it[i].latitude,it[i].longitude))
                 if(minLat>it[i].latitude) minLat = it[i].latitude
                 if(maxLat<it[i].latitude) maxLat = it[i].latitude
                 if(minLng>it[i].longitude) minLng = it[i].longitude
@@ -96,7 +89,7 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
             }
 
             val path = PathOverlay()
-            path.coords = arrayListLatLng.toList()
+            path.coords = arrayListLatLng!!.toList()
             path.width = 24
             path.color = Color.rgb(128,128,255)
             path.outlineWidth = 0

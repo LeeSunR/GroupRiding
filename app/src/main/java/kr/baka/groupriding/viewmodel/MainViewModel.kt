@@ -1,44 +1,37 @@
 package kr.baka.groupriding.viewmodel
 
-import android.os.Parcelable
-import android.util.Log
-import android.view.DragEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ScrollView
-import androidx.core.view.marginTop
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import kotlinx.android.parcel.Parcelize
+import com.naver.maps.geometry.LatLng
 import kr.baka.groupriding.R
-import kr.baka.groupriding.etc.App
 import kr.baka.groupriding.etc.SingleLiveData
-import kr.baka.groupriding.model.Information
+import kr.baka.groupriding.model.Member
+import kr.baka.groupriding.repository.LocationLiveData
 
-@Parcelize
-class MainViewModel: ViewModel(), Parcelable {
+
+class MainViewModel: ViewModel() {
 
     val tag = MainViewModel::class.java.simpleName
+    val route = MediatorLiveData<ArrayList<LatLng>?>().also { it.value = null }
+    var members = MutableLiveData<ArrayList<Member>>()
 
-
-
-    val speed = MutableLiveData<String>()
-    val groupRidingStartVisibility = MutableLiveData<Int>()
-    val groupRidingStopVisibility = MutableLiveData<Int>()
-
-    val showMenuFragmentEvent = SingleLiveData<Any>()
-    val fragmentOnDragEvent = SingleLiveData<Any>()
-
-    val translateY = MutableLiveData<Int>()
-
+    val speed = MediatorLiveData<String>().also {liveData->
+        liveData.addSource(LocationLiveData, Observer {
+            if(it.hasSpeed()) liveData.value=(it.speed*3600/1000).toInt().toString()
+            else liveData.value="--"
+        })
+    }
 
     fun menuOnScroll(v:View, scrollX:Int, scrollY:Int, oldScrollX:Int, oldScrollY:Int){
         val view = v as ScrollView
         val maxScroller = view.getChildAt(0).height - view.height
-
         var rate = scrollY.toFloat()/maxScroller.toFloat()
-
         val imBtn = view.findViewById<ImageButton>(R.id.menu_down_btn)
         imBtn.alpha=rate
     }
@@ -57,9 +50,5 @@ class MainViewModel: ViewModel(), Parcelable {
             return true
         }
         return false
-    }
-
-    fun showMenuFragment(){
-        showMenuFragmentEvent.call()
     }
 }
