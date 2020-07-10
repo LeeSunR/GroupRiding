@@ -54,7 +54,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:onClick="@{()->vm.closeDialog()}"
+                android:onClick="@{vm.leftOnClick}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"
@@ -70,7 +70,7 @@
                 android:background="#000000" />
 
             <Button
-                android:onClick="@{()->vm.stopRecordRouteService()}"
+                android:onClick="@{vm.rightOnClick}"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"

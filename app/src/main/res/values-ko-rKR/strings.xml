@@ -23,21 +23,7 @@
     <string name="stringBtnYes">네</string>
     <string name="stringBtnNo">아니요</string>
     <string name="stringBtnSave">저장</string>
-
-    <string name="string">Start Group Riding</string>
-    <string name="stringInfoSpeed">Speed</string>
-    <string name="stringInfoAvgSpeed">Avg Speed</string>
-    <string name="stringInfoDistance">Distance</string>
-    <string name="stringInfoRidingTime">Riding Time</string>
-    <string name="stringInfoRestTime">Rest Time</string>
-
-    <string name="stringDialogTitleAskGroupRidingStart">그룹 라이딩을 시작하시겠습니까?</string>
-    <string name="stringDialogTitleAskGroupRidingStop">그룹 라이딩을 종료하시겠습니까?</string>
-    <string name="stringDialogTitleGroupCodeShow">초대 코드</string>
-    <string name="stringDialogTitleGroupRidingJoin">그룹 참가</string>
-
-    <string name="stringDialogMessageGroupCodeShow">아래 코드를 공유하면 친구를 초대 할 수 있습니다</string>
-    <string name="stringDialogMessageGroupRidingJoin">그룹에 참가하려면 초대 코드를 입력하세요</string>
+    <string name="stringBtnStart">시작</string>
 
     <string name="stringSettingTopTitle">설정</string>
     <string name="stringSettingTitleNickname">닉네임</string>
@@ -49,16 +35,39 @@
     <string name="stringSettingTitleDeveloperInfomation">개발자 정보</string>
     <string name="stringSettingTitlePrivacyPolicy">개인정보 처리방침</string>
 
-    <string name="stringThemeDark">다크</string>
-    <string name="stringThemeBlue">청록색</string>
-    <string name="stringThemeOrange">오랜지</string>
-
     <string name="serviceMessageGroupRecording">경로 녹화중입니다</string>
     <string name="serviceMessageGroupRidingStart">그룹라이딩 서비스가 실행 중 입니다</string>
-    <string name="toastMessageGPSreception">GPS 수신을 기다리는 중 입니다</string>
+    <string name="toastMessageGPSReception">GPS 수신을 기다리는 중 입니다</string>
 
     <string name="failDialogTitle_groupJoinFail">그룹 참가 실패</string>
     <string name="failDialogMessage_groupJoinFail">"초대 코드가 유효하지 않습니다"</string>
+
+    <string name="dialogTitle_recordStart">경로 녹화</string>
+    <string name="dialogMessage_recordStart">현재 주행중인 경로를 녹화합니다\n(*녹화 종료를 해야 경로가 올바르게 저장됩니다*"</string>
+
+    <string name="dialogTitle_groupRidingStart">그룹라이딩</string>
+    <string name="dialogMessage_groupRidingStart">그룹 라이딩을 시작하시겠습니까?</string>
+
+    <string name="dialogTitle_groupRidingInvite">그룹 초대</string>
+    <string name="dialogMessage_groupRidingInvite">아래 코드를 공유하면 친구를 초대 할 수 있습니다</string>
+
+    <string name="dialogTitle_groupRidingJoin">그룹 참가</string>
+    <string name="dialogMessage_groupRidingJoin">그룹에 참가하려면 초대 코드를 입력하세요</string>
+
+    <string name="dialogTitle_groupRidingFinish">그룹라이딩 종료</string>
+    <string name="dialogMessage_groupRidingFinish"> 그룹라이딩이 종료되었습니다.\n경로를 저장하려면 [저장] 버튼을 클릭하세요</string>
+
+    <string name="dialogTitle_routeRecordFinish">경로 저장</string>
+    <string name="dialogMessage_routeRecordFinish">경로 저장을 마치려면 아래 내용을 입력하세요</string>
+
+    <string name="dialogTitle_groupRidingStop">그룹라이딩 종료</string>
+    <string name="dialogMessage_groupRidingStop">그룹 라이딩을 종료하시겠습니까?</string>
+
+    <string name="dialogTitle_routeRecordStop">경로 녹화 종료</string>
+    <string name="dialogMessage_routeRecordStop">경로 녹화를 종료하시겠습니까?</string>
+
+    <string name="dialogTitle_routeShowStop">경로 해제</string>
+    <string name="dialogMessage_routeShowStop">경로 표시를 해제하시겠습니까?</string>
 
     <string name="groupRidingServiceHostWAN">http://baka.kr:6060</string>
     <string name="groupRidingServiceHostLAN">http://192.168.35.235:6060</string>

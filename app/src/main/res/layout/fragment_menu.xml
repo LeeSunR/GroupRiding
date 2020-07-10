@@ -175,7 +175,7 @@
 
         <LinearLayout
             android:visibility="@{vm.routeStartVisibility}"
-            android:onClick="@{()->vm.stopRouteShow()}"
+            android:onClick="@{()->vm.showRouteStopDialog()}"
             android:layout_weight="1"
             android:orientation="vertical"
             android:clickable="true"
@@ -193,6 +193,7 @@
                 android:layout_height="40dp"/>
             <TextView
                 android:textSize="12dp"
+                android:textColor="@color/colorDefaultBackGround"
                 android:textAlignment="center"
                 android:text="@string/stringMenuDestinationClear"
                 android:layout_width="wrap_content"

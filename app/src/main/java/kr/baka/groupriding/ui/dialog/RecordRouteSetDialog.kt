@@ -6,8 +6,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
@@ -15,47 +18,49 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.PathOverlay
 import kr.baka.groupriding.R
 import kr.baka.groupriding.databinding.DialogRecordRouteSetBinding
+import kr.baka.groupriding.databinding.DialogSimpleBinding
 import kr.baka.groupriding.repository.room.AppDatabase
 import kr.baka.groupriding.repository.room.entity.RouteEntity
 import kr.baka.groupriding.repository.room.entity.RouteSubEntity
 import kr.baka.groupriding.viewmodel.RecordRouteSetViewModel
 
-class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity) : Dialog(context),OnMapReadyCallback  {
+class RecordRouteSetDialog() : DialogFragment(),OnMapReadyCallback  {
 
+    private var routeEntity: RouteEntity? = null
     private val routeObserver = RouteObserver()
     private lateinit var mapView: MapView
     lateinit var naverMap: NaverMap
     var arrayListLatLng:ArrayList<LatLng>? = null
+    val viewModel = RecordRouteSetViewModel()
+        companion object{
+        fun getInstance(routeEntity:RouteEntity):RecordRouteSetDialog{
+            val dialog = RecordRouteSetDialog()
+            dialog.routeEntity = routeEntity
+            return dialog
+        }
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
-        setCancelable(false) //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
-
-        val binding: DialogRecordRouteSetBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dialog_record_route_set,
-            null,
-            false
-        )
-        setContentView(binding.root)
-        val viewModel = RecordRouteSetViewModel()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = DialogRecordRouteSetBinding.inflate(inflater, container, false)
         binding.vm = viewModel
 
-        mapView = findViewById(R.id.dialogMap)
+        mapView = binding.root.findViewById(R.id.dialogMap)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        viewModel.eventCloseDialog.observeForever {
-            arrayListLatLng = null
-            dismiss()
-        }
+        return binding.root
+    }
 
-        viewModel.stopRecordRouteServiceEvent.observeForever {
-            dismiss()
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
+    fun setRightButton(event:View.OnClickListener) {
+        viewModel.rightOnClick.value = event
+    }
 
+    fun setLeftButton(event:View.OnClickListener) {
+        viewModel.leftOnClick.value = event
     }
 
     override fun onStart() {
@@ -68,9 +73,24 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
         super.onStop()
     }
 
-    override fun dismiss() {
+    override fun onPause() {
+        mapView.onPause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        mapView.onResume()
+        super.onResume()
+    }
+
+    override fun onLowMemory() {
+        mapView.onLowMemory()
+        super.onLowMemory()
+    }
+
+    override fun onDestroy() {
         mapView.onDestroy()
-        super.dismiss()
+        super.onDestroy()
     }
 
     inner class RouteObserver:Observer<List<RouteSubEntity>>{
@@ -103,8 +123,7 @@ class RecordRouteSetDialog(context: Context,private val routeEntity: RouteEntity
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-
-        AppDatabase.getInstance(context).routeSubDao().getRouteSub(routeEntity.rid).observeForever(routeObserver)
+        AppDatabase.getInstance(context!!).routeSubDao().getRouteSub(routeEntity!!.rid).observeForever(routeObserver)
         this.naverMap = naverMap
         naverMap.uiSettings.isScaleBarEnabled=false
         naverMap.uiSettings.isZoomControlEnabled=false

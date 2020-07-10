@@ -46,8 +46,9 @@ class MenuViewModel :ViewModel(){
         showRecordRouteStopDialogEvent.call()
     }
 
-    fun stopRouteShow(){
-        mainViewModel.route.value=null
+    val showRouteStopDialogEvent = SingleLiveData<Any>()
+    fun showRouteStopDialog(){
+        showRouteStopDialogEvent.call()
     }
 
     val routeStartVisibility = MediatorLiveData<Int>().also { liveData->

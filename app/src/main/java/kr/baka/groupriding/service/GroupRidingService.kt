@@ -154,7 +154,8 @@ class GroupRidingService: Service() {
             intent.putExtra("message",args[0].toString())
             sendBroadcast(intent)
 
-            onDestroy()
+            disconnect()
+            //onDestroy()
         }
     }
 

@@ -3,6 +3,7 @@ package kr.baka.groupriding.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,20 +32,19 @@ class RouteActivity : AppCompatActivity() {
 
         val mainViewModel = ViewModelProvider(App(), ViewModelFactory()).get(MainViewModel::class.java)
 
-        val adapter = RouteAdapter({
-                route ->
-                RecordRouteSetDialog(this,route).also { dialog->
-                    dialog.setOnDismissListener {
-                        if(dialog.arrayListLatLng != null){
-                            mainViewModel.route.value = dialog.arrayListLatLng
-                            finish()
-                        }
-                    }
-                    dialog.show()
-                }
-
-        }, {
-                route ->
+        val adapter = RouteAdapter({ route ->
+            RecordRouteSetDialog.getInstance(route).also { dialog->
+                dialog.setLeftButton(View.OnClickListener {
+                    dialog.dismiss()
+                })
+                dialog.setRightButton(View.OnClickListener {
+                    mainViewModel.route.value = dialog.arrayListLatLng
+                    dialog.dismiss()
+                    finish()
+                })
+                dialog.show(supportFragmentManager,"dialog")
+            }
+        }, { route ->
                 RouteRepository(this).delete(route)
         })
 

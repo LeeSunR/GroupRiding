@@ -10,8 +10,8 @@
     <string name="stringInvite">invite</string>
 
     <string name="stringMenuInvite">invite</string>
-    <string name="stringMenuDestinationSet">경로 설정</string>
-    <string name="stringMenuDestinationClear">경로 해제</string>
+    <string name="stringMenuDestinationSet">Route Setting</string>
+    <string name="stringMenuDestinationClear">Route Off</string>
     <string name="stringMenuRouteRecodingStart">Route Recoding</string>
     <string name="stringMenuSetting">setting</string>
 
@@ -23,39 +23,55 @@
     <string name="stringBtnYes">Yes</string>
     <string name="stringBtnNo">No</string>
     <string name="stringBtnSave">Save</string>
+    <string name="stringBtnStart">Start</string>
 
-    <string name="string">Start Group Riding</string>
-    <string name="stringInfoSpeed">Speed</string>
-    <string name="stringInfoAvgSpeed">Avg Speed</string>
-    <string name="stringInfoDistance">Distance</string>
-    <string name="stringInfoRidingTime">Riding Time</string>
-    <string name="stringInfoRestTime">Rest Time</string>
+    <string name="stringSettingTopTitle">Setting</string>
+    <string name="stringSettingTitleNickname">Nickname</string>
+    <string name="stringSettingTitleSamplingInterval">Sampling Interval</string>
+    <string name="stringSettingTitleMaxSpeed">Max Speed</string>
+    <string name="stringSettingTitleLockScreen">Show on the lock screen</string>
+    <string name="stringSettingTitleAppVersion">App version</string>
+    <string name="stringSettingTitleOpenSourceLicense">OpenSource License</string>
+    <string name="stringSettingTitleDeveloperInfomation">Developer</string>
+    <string name="stringSettingTitlePrivacyPolicy">Privacy Policy</string>
 
-    <string name="stringDialogTitleAskGroupRidingStart">그룹 라이딩을 시작하시겠습니까?</string>
-    <string name="stringDialogTitleAskGroupRidingStop">그룹 라이딩을 종료하시겠습니까?</string>
-    <string name="stringDialogTitleGroupCodeShow">초대 코드</string>
-    <string name="stringDialogTitleGroupRidingJoin">그룹 참가</string>
+    <string name="serviceMessageGroupRecording">The route is recording</string>
+    <string name="serviceMessageGroupRidingStart">Group Riding Service is running</string>
+    <string name="toastMessageGPSReception">Waiting for GPS reception</string>
 
-    <string name="stringDialogMessageGroupCodeShow">아래 코드를 공유하면 친구를 초대 할 수 있습니다</string>
-    <string name="stringDialogMessageGroupRidingJoin">그룹에 참가하려면 초대 코드를 입력하세요</string>
 
-    <string name="stringSettingTopTitle">설정</string>
-    <string name="stringSettingTitleNickname">닉네임</string>
-    <string name="stringSettingTitleSamplingInterval">샘플링 간격</string>
-    <string name="stringSettingTitleMaxSpeed">최대 속도</string>
-    <string name="stringSettingTitleLockScreen">잠금화면 위에 표시</string>
-    <string name="stringSettingTitleAppVersion">앱 버전</string>
-    <string name="stringSettingTitleOpenSourceLicense">오픈 소스 라이센스</string>
-    <string name="stringSettingTitleDeveloperInfomation">개발자 정보</string>
-    <string name="stringSettingTitlePrivacyPolicy">개인정보 처리방침</string>
+    <!-- 다이얼로그 TITLE, MESSAGE -->
+    <string name="failDialogTitle_groupJoinFail">Group Join Fail</string>
+    <string name="failDialogMessage_groupJoinFail">Invitation code is invalid</string>
 
-    <string name="stringThemeDark">dark</string>
-    <string name="stringThemeBlue">blue</string>
-    <string name="stringThemeOrange">orange</string>
+    <string name="dialogTitle_recordStart">Route Recording</string>
+    <string name="dialogMessage_recordStart">Record the current driving route\n(*The route will be saved correctly only when recording is finished*)</string>
+
+    <string name="dialogTitle_groupRidingStart">Group Riding</string>
+    <string name="dialogMessage_groupRidingStart">Would you like to start group riding?</string>
+
+    <string name="dialogTitle_groupRidingInvite">Group Invite</string>
+    <string name="dialogMessage_groupRidingInvite">Share the code below to invite friends</string>
+
+    <string name="dialogTitle_groupRidingJoin">Group Join</string>
+    <string name="dialogMessage_groupRidingJoin">Enter the invitation code to join the group</string>
+
+    <string name="dialogTitle_groupRidingFinish">Group Riding End</string>
+    <string name="dialogMessage_groupRidingFinish">Group riding is finished.\nClick the [Save] button to save the path.</string>
+
+    <string name="dialogTitle_routeRecordFinish">Route Save</string>
+    <string name="dialogMessage_routeRecordFinish">Please enter below to finish saving the route</string>
+
+    <string name="dialogTitle_groupRidingStop">Group Riding End</string>
+    <string name="dialogMessage_groupRidingStop">Would you like to end group riding?</string>
+
+    <string name="dialogTitle_routeRecordStop">Recording End</string>
+    <string name="dialogMessage_routeRecordStop">Are you sure you want to end route recording?</string>
+
+    <string name="dialogTitle_routeShowStop">Route Off</string>
+    <string name="dialogMessage_routeShowStop">Do you want to unmark the route?</string>
 
     <string name="groupRidingServiceHostWAN">http://baka.kr:6060</string>
     <string name="groupRidingServiceHostLAN">http://192.168.35.235:6060</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
